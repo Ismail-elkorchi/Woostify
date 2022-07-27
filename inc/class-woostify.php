@@ -52,8 +52,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 
 			// Compatibility.
 			add_action( 'elementor/widgets/widgets_registered', array( $this, 'woostify_add_elementor_widget' ) );
-			add_filter( 'the_content', array( $this, 'woostify_modify_the_content' ) );
-			add_action( 'init', array( $this, 'woostify_override_divi_color_pciker' ), 12 );
 
 			add_action( 'wp_head', array( $this, 'sticky_footer_bar' ), 15 );
 
@@ -206,41 +204,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 			}
 
 			require_once WOOSTIFY_THEME_DIR . 'inc/compatibility/elementor/class-woostify-elementor-single-product-images.php';
-		}
-
-		/**
-		 * Modify content
-		 *
-		 * @param object $content The content.
-		 */
-		public function woostify_modify_the_content( $content ) {
-			if ( ! defined( 'ET_BUILDER_PLUGIN_VERSION' ) ) {
-				return $content;
-			}
-
-			return et_builder_get_layout_opening_wrapper() . $content . et_builder_get_layout_closing_wrapper();
-		}
-
-		/**
-		 * Modify again for Divi, lol
-		 */
-		public function woostify_override_divi_color_pciker() {
-			if ( ! defined( 'ET_BUILDER_PLUGIN_VERSION' ) || ! is_customize_preview() ) {
-				return;
-			}
-
-			wp_localize_script(
-				'wp-color-picker',
-				'wpColorPickerL10n',
-				array(
-					'clear'            => __( 'Clear', 'woostify' ),
-					'clearAriaLabel'   => __( 'Clear color', 'woostify' ),
-					'defaultString'    => __( 'Default', 'woostify' ),
-					'defaultAriaLabel' => __( 'Select default color', 'woostify' ),
-					'pick'             => __( 'Select Color', 'woostify' ),
-					'defaultLabel'     => __( 'Color value', 'woostify' ),
-				)
-			);
 		}
 
 		/**
@@ -1040,11 +1003,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 
 			// Blog page layout.
 			$classes[] = ( ( ! is_singular( 'post' ) && woostify_is_blog() ) || ( is_search() && 'any' === get_query_var( 'post_type' ) ) ) ? 'blog-layout-' . $options['blog_list_layout'] : '';
-
-			// Detect page created by Divi builder.
-			if ( woostify_is_divi_page() ) {
-				$classes[] = 'edited-by-divi-builder';
-			}
 
 			// Disable cart sidebar.
 			if ( ( defined( 'ELEMENTOR_PRO_VERSION' ) && 'yes' === get_option( 'elementor_use_mini_cart_template' ) ) || defined( 'XOO_WSC_PLUGIN_FILE' ) ) {

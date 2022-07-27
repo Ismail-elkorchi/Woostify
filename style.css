@@ -3206,13 +3206,6 @@ article p:last-child {
   margin: 3.5em 0;
 }
 
-.woobuilder-active .site-content,
-.elementor-page .site-content,
-.edited-by-divi-builder .site-content,
-.elementor-template-full-width .site-content {
-  margin: 0;
-}
-
 .single-product .site-content {
   margin-top: 0;
 }
@@ -4539,12 +4532,6 @@ footer#colophon {
 
 .site-footer {
   clear: both;
-}
-
-.woobuilder-active .site-footer,
-.edited-by-divi-builder .site-footer,
-.elementor-page .site-footer {
-  margin-top: 0;
 }
 
 /* FOOTER WIDGET COLUMNS */

@@ -199,35 +199,6 @@ if ( ! function_exists( 'woostify_is_elementor_editor' ) ) {
 	}
 }
 
-if ( ! function_exists( 'woostify_is_divi_page' ) ) {
-	/**
-	 * Get Divi page content
-	 *
-	 * @param int $id The page id.
-	 */
-	function woostify_is_divi_page( $id = false ) {
-		if ( ! defined( 'ET_BUILDER_PLUGIN_VERSION' ) ) {
-			return false;
-		}
-
-		if ( ! $id ) {
-			$id = woostify_get_page_id();
-		}
-
-		if ( ! $id || is_tax() ) {
-			return false;
-		}
-
-		$content_post = get_post( $id );
-		$content      = $content_post->post_content;
-		if ( false !== strpos( $content, '<!-- wp:divi/placeholder -->' ) || false !== strpos( $content, '[et_pb_' ) ) {
-			return true;
-		}
-
-		return false;
-	}
-}
-
 if ( ! function_exists( 'woostify_sanitize_array' ) ) {
 	/**
 	 * Sanitize integer value
