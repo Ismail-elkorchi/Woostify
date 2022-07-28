@@ -460,7 +460,7 @@ if ( ! class_exists( 'Woostify_WooCommerce' ) ) {
 		 * Woocommerce enqueue scripts and styles.
 		 */
 		public function woocommerce_scripts() {
-			$product_id = woostify_get_product_id();
+			$product_id = woostify_get_page_id();
 			$product    = $product_id ? wc_get_product( $product_id ) : false;
 			$options    = woostify_options( false );
 
@@ -674,7 +674,7 @@ if ( ! class_exists( 'Woostify_WooCommerce' ) ) {
 				$classes[] = 'has-gallery-list-layout';
 			}
 
-			if ( $gallery || is_singular( 'elementor_library' ) || is_singular( 'woo_builder' ) ) {
+			if ( $gallery ) {
 				$classes[] = 'has-gallery-layout-' . $options['shop_single_gallery_layout'];
 			}
 
@@ -806,13 +806,7 @@ if ( ! class_exists( 'Woostify_WooCommerce' ) ) {
 				add_action( 'woocommerce_checkout_after_order_review', 'woostify_checkout_before_order_review', 10 );
 			}
 
-			$has_woo_builder_checkout_page = false;
-
-			if ( class_exists( 'Woostify_Woo_Builder' ) ) {
-				$woo_builder                   = \Woostify_Woo_Builder::init();
-				$has_woo_builder_checkout_page = $woo_builder->template_exist( 'woostify_checkout_page' );
-			}
-			if ( 'layout-3' === $options['checkout_page_layout'] && ! $has_woo_builder_checkout_page ) {
+			if ( 'layout-3' === $options['checkout_page_layout'] ) {
 				add_action( 'woocommerce_before_checkout_form', 'woostify_checkout_form_distr_free_bg', 0 );
 
 				add_action( 'woocommerce_before_checkout_form', 'woostify_checkout_options_start', 5 );
