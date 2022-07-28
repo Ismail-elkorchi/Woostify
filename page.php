@@ -11,37 +11,30 @@
  */
 
 get_header();
+?>
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main">
+			<?php
+			while ( have_posts() ) :
+				the_post();
 
-if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'single' ) && woostify_elementor_has_location( 'single' ) ) {
-	$frontend = new \Elementor\Frontend();
-	echo $frontend->get_builder_content_for_display( get_the_ID(), true ); // phpcs:ignore
-	wp_reset_postdata();
-} else {
-	?>
-		<div id="primary" class="content-area">
-			<main id="main" class="site-main">
-				<?php
-				while ( have_posts() ) :
-					the_post();
+				do_action( 'woostify_page_before' );
 
-					do_action( 'woostify_page_before' );
+				get_template_part( 'template-parts/content', 'page' );
 
-					get_template_part( 'template-parts/content', 'page' );
+				/**
+				 * Functions hooked in to woostify_page_after action
+				 *
+				 * @hooked woostify_display_comments - 10
+				 */
+				do_action( 'woostify_page_after' );
 
-					/**
-					 * Functions hooked in to woostify_page_after action
-					 *
-					 * @hooked woostify_display_comments - 10
-					 */
-					do_action( 'woostify_page_after' );
+			endwhile;
+			?>
+		</main>
+	</div>
+<?php
 
-				endwhile;
-				?>
-			</main>
-		</div>
-	<?php
-
-	do_action( 'woostify_sidebar' );
-}
+do_action( 'woostify_sidebar' );
 
 get_footer();
