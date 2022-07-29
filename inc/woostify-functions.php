@@ -45,40 +45,6 @@ if ( ! function_exists( 'woostify_suffix' ) ) {
 	}
 }
 
-if ( ! function_exists( 'woostify_get_pro_url' ) ) {
-	/**
-	 * Generate a URL to our pro add-ons.
-	 * Allows the use of a referral ID and campaign.
-	 *
-	 * @param string $url URL to pro page.
-	 *
-	 * @return string The URL to woostify.com.
-	 */
-	function woostify_get_pro_url( $url = 'https://woostify.com' ) {
-		$url = trailingslashit( $url );
-
-		$args = apply_filters(
-			'woostify_premium_url_args',
-			array(
-				'ref'      => null,
-				'campaign' => null,
-			)
-		);
-
-		// Set up our URL if we have an ID.
-		if ( isset( $args['ref'] ) ) {
-			$url = add_query_arg( 'ref', absint( $args['ref'] ), $url );
-		}
-
-		// Set up our URL if we have a campaign.
-		if ( isset( $args['campaign'] ) ) {
-			$url = add_query_arg( 'campaign', sanitize_text_field( $args['campaign'] ), $url );
-		}
-
-		return esc_url( $url );
-	}
-}
-
 if ( ! function_exists( 'woostify_is_woocommerce_activated' ) ) {
 	/**
 	 * Query WooCommerce activation
