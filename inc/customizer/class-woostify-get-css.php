@@ -299,17 +299,6 @@ class Woostify_Get_CSS {
 			}
 		';
 
-		// For mega menu.
-		$styles = '
-			.main-navigation .mega-menu-inner-wrapper {
-				width: 100%;
-				max-width: ' . esc_attr( $options['container_width'] ) . 'px;
-				margin: 0 auto;
-				padding-left: 15px;
-				padding-right: 15px;
-			}
-		';
-
 		// Container.
 		$styles .= '
 			@media (min-width: 992px) {
@@ -492,9 +481,6 @@ class Woostify_Get_CSS {
 				.has-header-transparent.header-transparent-for-mobile .site-header {
 				    position: absolute;
 				}
-				.sub-mega-menu {
-    				display: none;
-  				}
   				.site-branding .custom-mobile-logo-url {
 					display: block;
 				}
@@ -550,16 +536,6 @@ class Woostify_Get_CSS {
 
 				.has-header-layout-1 .sidebar-menu {
 				    display: none;
-				}
-
-				.sidebar-menu .main-navigation .primary-navigation .menu-item-has-mega-menu .mega-menu-wrapper {
-				    min-width: auto;
-				    max-width: 100%;
-				    transform: none;
-				    position: static;
-				    box-shadow: none;
-				    opacity: 1;
-				    visibility: visible;
 				}
 
 				.sidebar-menu .main-navigation .primary-navigation .sub-menu {

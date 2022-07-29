@@ -31,28 +31,6 @@ if ( ! class_exists( 'Woostify_Walker_Menu' ) ) {
 			// Classes name.
 			$classes   = empty( $item->classes ) ? array() : (array) $item->classes;
 			$classes[] = 'menu-item-' . $item->ID;
-			if ( 'mega_menu' === $item->object ) {
-				$this->megamenu_width    = get_post_meta( $item->ID, 'woostify_mega_menu_item_width', true );
-				$this->megamenu_width    = '' !== $this->megamenu_width ? $this->megamenu_width : 'content';
-				$this->megamenu_position = get_post_meta( $item->ID, 'woostify_mega_menu_item_position', true );
-				$this->megamenu_url      = get_post_meta( $item->ID, 'woostify_mega_menu_item_url', true );
-				$this->megamenu_icon     = get_post_meta( $item->ID, 'woostify_mega_menu_item_icon', true );
-				$this->megamenu_icon     = str_replace( 'ti-', '', $this->megamenu_icon );
-				$href                    = $this->megamenu_url;
-
-				if ( ! $href ) {
-					$href = '#';
-				}
-
-				$classes[] = 'menu-item-has-children';
-				$classes[] = 'menu-item-has-mega-menu';
-				$classes[] = 'has-mega-menu-' . $this->megamenu_width . '-width';
-				$classes[] = woostify_is_elementor_page( $item->object_id ) ? 'mega-menu-elementor' : '';
-
-				if ( 'parent' === $this->megamenu_position ) {
-					$classes[] = 'menu-item-has-children-same-position';
-				}
-			}
 			$classes = array_filter( $classes );
 
 			// Check this item has children.
@@ -80,7 +58,6 @@ if ( ! class_exists( 'Woostify_Walker_Menu' ) ) {
 			foreach ( $atts as $attr => $value ) {
 				if ( ! empty( $value ) ) {
 					$value       = 'href' === $attr ? esc_url( $value ) : esc_attr( $value );
-					$value       = 'mega_menu' === $item->object ? $href : $value;
 					$attributes .= ' ' . $attr . '="' . $value . '"';
 				}
 			}
@@ -91,13 +68,6 @@ if ( ! class_exists( 'Woostify_Walker_Menu' ) ) {
 				$item_output .= '<a' . $attributes . ' title="' . esc_attr( $item->attr_title ) . '">';
 			} else {
 				$item_output .= '<a' . $attributes . '>';
-			}
-
-			// Menu icon.
-			if ( 'mega_menu' === $item->object && $this->megamenu_icon ) {
-				$item_output .= '<span class="menu-item-icon">';
-				$item_output .= Woostify_Icon::fetch_svg_icon( $this->megamenu_icon, false );
-				$item_output .= '</span>';
 			}
 
 			$title = apply_filters( 'the_title', $item->title, $item->ID );
@@ -112,59 +82,6 @@ if ( ! class_exists( 'Woostify_Walker_Menu' ) ) {
 			}
 
 			$item_output .= '</a>';
-
-			// Start Mega menu content.
-			if ( 'mega_menu' === $item->object && 0 === $depth && ! woostify_is_elementor_editor() ) {
-				$mega_menu = '';
-
-				if ( class_exists( 'Woostify_Header_Footer_Builder' ) ) {
-					$frontend   = new \Elementor\Frontend();
-					$mega_menu .= $frontend->get_builder_content_for_display( $item->object_id, true );
-				} else {
-					if ( woostify_is_elementor_page( $item->object_id ) ) {
-						$frontend   = new \Elementor\Frontend();
-						$mega_menu .= '<div class="mega-menu-inner-wrapper">';
-						$mega_menu .= $frontend->get_builder_content_for_display( $item->object_id, true );
-						$mega_menu .= '</div>';
-						wp_enqueue_style( 'elementor-frontend' );
-						wp_reset_postdata();
-					} else {
-						$mega_args = array(
-							'p'                   => $item->object_id,
-							'post_type'           => 'mega_menu',
-							'post_status'         => 'publish',
-							'posts_per_page'      => 1,
-							'ignore_sticky_posts' => 1,
-							'fields'              => 'ids',
-						);
-
-						$query = new WP_Query( $mega_args );
-
-						if ( $query->have_posts() ) {
-							ob_start();
-							echo '<div class="mega-menu-inner-wrapper">';
-							while ( $query->have_posts() ) {
-								$query->the_post();
-
-								the_content();
-							}
-							echo '</div>';
-							$mega_menu .= ob_get_clean();
-
-							wp_reset_postdata();
-						}
-					}
-				}
-
-				if ( ! empty( $mega_menu ) ) {
-					$item_output .= '<ul class="sub-mega-menu">';
-					$item_output .= '<div class="mega-menu-wrapper">';
-					$item_output .= $mega_menu;
-					$item_output .= '</div>';
-					$item_output .= '</ul>';
-				}
-			} // End Mega menu content.
-
 			$item_output .= $args->after;
 
 			$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
