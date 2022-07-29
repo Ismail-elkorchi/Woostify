@@ -254,53 +254,6 @@ if ( class_exists( 'woocommerce' ) ) {
 		)
 	);
 
-	// Wishlist icon.
-	if ( woostify_support_wishlist_plugin() ) {
-
-		// Wishlist divider.
-		$wp_customize->add_setting(
-			'header_wishlist_heading',
-			array(
-				'sanitize_callback' => 'sanitize_text_field',
-			)
-		);
-		$wp_customize->add_control(
-			new Woostify_Divider_Control(
-				$wp_customize,
-				'header_wishlist_heading',
-				array(
-					'priority' => 129,
-					'section'  => 'woostify_header',
-					'settings' => 'header_wishlist_heading',
-					'type'     => 'divider',
-					'tab'      => 'general',
-				)
-			)
-		);
-
-		$wp_customize->add_setting(
-			'woostify_setting[header_wishlist_icon]',
-			array(
-				'type'              => 'option',
-				'default'           => $defaults['header_wishlist_icon'],
-				'sanitize_callback' => 'woostify_sanitize_checkbox',
-			)
-		);
-		$wp_customize->add_control(
-			new Woostify_Switch_Control(
-				$wp_customize,
-				'woostify_setting[header_wishlist_icon]',
-				array(
-					'priority' => 130,
-					'label'    => __( 'Wishlist Icon', 'woostify' ),
-					'section'  => 'woostify_header',
-					'settings' => 'woostify_setting[header_wishlist_icon]',
-					'tab'      => 'general',
-				)
-			)
-		);
-	}
-
 	// Account divider.
 	$wp_customize->add_setting(
 		'header_account_heading',

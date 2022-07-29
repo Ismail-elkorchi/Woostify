@@ -565,7 +565,6 @@ document.addEventListener(
 				'.price_slider_wrapper .ui-widget-header,' +
 				'.price_slider_wrapper .ui-slider-handle,' +
 				'.cart-sidebar-head .shop-cart-count,' +
-				'.wishlist-item-count,' +
 				'.shop-cart-count,' +
 				'.sidebar-menu .primary-navigation a:before,' +
 				'.woocommerce-message,' +
@@ -618,9 +617,8 @@ document.addEventListener(
 				'#secondary .widget a,' +
 				'.has-woostify-text-color,' +
 				'.button.loop-add-to-cart-icon-btn,' +
-				'.loop-wrapper-wishlist a,' +
 				'#order_review .shop_table .product-name',
-				'.loop-wrapper-wishlist a:hover, .price_slider_wrapper .price_slider, .has-woostify-text-background-color',
+				'.price_slider_wrapper .price_slider, .has-woostify-text-background-color',
 				'.elementor-add-to-cart .quantity',
 			],
 			[
@@ -721,7 +719,7 @@ document.addEventListener(
 				'header_transparent_count_background',
 			],
 			[
-				'.has-header-transparent .wishlist-item-count, .has-header-transparent .shop-cart-count',
+				'.has-header-transparent .shop-cart-count',
 			],
 			[
 				'background-color',

@@ -45,7 +45,6 @@ wp.customize.controlConstructor['woostify-adv-list'] = wp.customize.Control.exte
 								options_wrap.find( '.woostify-adv-list-control' ).removeClass( 'hide' )
 								options_wrap.find( '.woostify-adv-list-control.shortcode-field' ).addClass( 'hide' )
 								break
-							case 'wishlist':
 							case 'cart':
 							case 'search':
 								options_wrap.find( '.woostify-adv-list-control:not(.type-field)' ).addClass( 'hide' )

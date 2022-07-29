@@ -140,26 +140,6 @@ if ( ! function_exists( 'woostify_loop_product_add_to_cart_on_image' ) ) {
 	}
 }
 
-if ( ! function_exists( 'woostify_product_loop_item_wishlist_icon_bottom' ) ) {
-	/**
-	 * Product loop wishlist icon on bottom right
-	 */
-	function woostify_product_loop_item_wishlist_icon_bottom() {
-		$options = woostify_options( false );
-		if ( 'bottom-right' !== $options['shop_page_wishlist_position'] || ! woostify_support_wishlist_plugin() ) {
-			return;
-		}
-
-		$shortcode = ( 'ti' === $options['shop_page_wishlist_support_plugin'] ) ? '[ti_wishlists_addtowishlist]' : '[yith_wcwl_add_to_wishlist]';
-		?>
-
-		<div class="loop-wrapper-wishlist">
-			<?php echo do_shortcode( $shortcode ); ?>
-		</div>
-		<?php
-	}
-}
-
 if ( ! function_exists( 'woostify_loop_product_image_wrapper_close' ) ) {
 	/**
 	 * Loop product image wrapper close tag

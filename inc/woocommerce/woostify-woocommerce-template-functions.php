@@ -806,11 +806,6 @@ if ( ! function_exists( 'woostify_content_fragments' ) ) {
 		}
 		$fragments['div.cart-sidebar-content'] = sprintf( '<div class="cart-sidebar-content %s">%s</div>', esc_attr( implode( ' ', $cart_clss ) ), $mini_cart );
 
-		// Wishlist counter.
-		if ( 'ti' === $options['shop_page_wishlist_support_plugin'] && function_exists( 'tinv_get_option' ) && tinv_get_option( 'topline', 'show_counter' ) ) {
-			$fragments['span.theme-item-count.wishlist-item-count'] = sprintf( '<span class="theme-item-count wishlist-item-count">%s</span>', woostify_get_wishlist_count() );
-		}
-
 		return $fragments;
 	}
 }
@@ -917,22 +912,6 @@ if ( ! function_exists( 'woostify_product_loop_item_add_to_cart_icon' ) ) {
 		}
 
 		woostify_modified_add_to_cart_button();
-	}
-}
-
-if ( ! function_exists( 'woostify_product_loop_item_wishlist_icon' ) ) {
-	/**
-	 * Product loop wishlist icon
-	 */
-	function woostify_product_loop_item_wishlist_icon() {
-		$options = woostify_options( false );
-		if ( 'top-right' !== $options['shop_page_wishlist_position'] || ! woostify_support_wishlist_plugin() ) {
-			return;
-		}
-
-		$shortcode = ( 'ti' === $options['shop_page_wishlist_support_plugin'] ) ? '[ti_wishlists_addtowishlist]' : '[yith_wcwl_add_to_wishlist]';
-
-		echo do_shortcode( $shortcode );
 	}
 }
 
@@ -1388,9 +1367,6 @@ if ( ! function_exists( 'woostify_override_woocommerce_account_navigation' ) ) {
 						break;
 					case 'edit-account':
 						$icon = 'user';
-						break;
-					case 'tinv_wishlist':
-						$icon = 'heart';
 						break;
 					case 'customer-logout':
 						$icon = 'pencil-alt';

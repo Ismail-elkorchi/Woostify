@@ -276,14 +276,6 @@ if ( ! class_exists( 'Woostify_Customizer' ) ) :
 					'hidden'    => false,
 				),
 				array(
-					'type'      => 'wishlist',
-					'icon'      => 'heart',
-					'name'      => 'Wishlist',
-					'link'      => '#',
-					'hidden'    => false,
-					'shortcode' => '',
-				),
-				array(
 					'type'      => 'search',
 					'icon'      => 'search',
 					'name'      => 'Search',
@@ -368,7 +360,6 @@ if ( ! class_exists( 'Woostify_Customizer' ) ) :
 				'header_primary_menu'                      => true,
 				'header_menu_breakpoint'                   => 992,
 				'header_search_icon'                       => true,
-				'header_wishlist_icon'                     => true,
 				'header_search_only_product'               => true,
 				'header_account_icon'                      => true,
 				'header_shop_cart_icon'                    => true,
@@ -539,9 +530,6 @@ if ( ! class_exists( 'Woostify_Customizer' ) ) :
 				'shop_page_button_background_hover'        => '',
 				'shop_page_button_color_hover'             => '',
 				'shop_page_button_border_radius'           => '',
-				// Wishlist.
-				'shop_page_wishlist_support_plugin'        => 'ti',
-				'shop_page_wishlist_position'              => 'top-right',
 				// Sale tag.
 				'shop_page_sale_tag_position'              => 'left',
 				'shop_page_sale_percent'                   => true,

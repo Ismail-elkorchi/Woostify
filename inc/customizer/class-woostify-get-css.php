@@ -542,11 +542,11 @@ class Woostify_Get_CSS {
 				    margin-left: 20px !important;
 				}
 
-				.sidebar-menu .main-navigation .primary-navigation .sub-menu:not(.sub-mega-menu) {
+				.sidebar-menu .main-navigation .primary-navigation .sub-menu {
 				    transition-duration: 0s;
 				}
 
-				.sidebar-menu .main-navigation .primary-navigation > .menu-item ul:not(.sub-mega-menu) {
+				.sidebar-menu .main-navigation .primary-navigation > .menu-item ul {
 				    opacity: 1;
 				    visibility: visible;
 				    transform: none;
@@ -556,7 +556,7 @@ class Woostify_Get_CSS {
 				    min-width: auto;
 				}
 
-				.sidebar-menu .main-navigation .primary-navigation > .menu-item ul:not(.sub-mega-menu) a {
+				.sidebar-menu .main-navigation .primary-navigation > .menu-item ul a {
 				    padding-right: 0;
 				    padding-left: 0;
 				}
@@ -626,13 +626,13 @@ class Woostify_Get_CSS {
 				    justify-content: space-between;
 				    align-items: center;
 				}
-				.main-navigation .primary-navigation > .menu-item .sub-menu a.tinvwl_add_to_wishlist_button, .main-navigation .primary-navigation > .menu-item .sub-menu a.woocommerce-loop-product__link, .main-navigation .primary-navigation > .menu-item .sub-menu a.loop-add-to-cart-btn {
+				.main-navigation .primary-navigation > .menu-item .sub-menu a.woocommerce-loop-product__link, .main-navigation .primary-navigation > .menu-item .sub-menu a.loop-add-to-cart-btn {
 				    padding: 0;
 				    justify-content: center;
 				    border-radius: 0;
 				}
 
-				.main-navigation .primary-navigation > .menu-item .sub-menu a.tinvwl_add_to_wishlist_button:hover, .main-navigation .primary-navigation > .menu-item .sub-menu a.woocommerce-loop-product__link:hover, .main-navigation .primary-navigation > .menu-item .sub-menu a.loop-add-to-cart-btn:hover {
+				.main-navigation .primary-navigation > .menu-item .sub-menu a.woocommerce-loop-product__link:hover, .main-navigation .primary-navigation > .menu-item .sub-menu a.loop-add-to-cart-btn:hover {
 				    background-color: transparent;
 				}
 
@@ -726,12 +726,10 @@ class Woostify_Get_CSS {
 			.has-woostify-text-color,
 			.button.loop-add-to-cart-icon-btn,
 			.button.loop-add-to-cart-icon-btn .woostify-svg-icon,
-			.loop-wrapper-wishlist a,
 			#order_review .shop_table .product-name {
 				color: ' . esc_attr( $options['text_color'] ) . ';
 			}
 
-			.loop-wrapper-wishlist a:hover,
 			.price_slider_wrapper .price_slider,
 			.has-woostify-text-background-color{
 				background-color: ' . esc_attr( $options['text_color'] ) . ';
@@ -916,21 +914,11 @@ class Woostify_Get_CSS {
 			.woostify-button-hover-bg-color,
 			.loop-add-to-cart-on-image+.added_to_cart:hover,
 			.button.loop-add-to-cart-icon-btn:hover,
-			.product-loop-action .yith-wcwl-add-to-wishlist:hover,
-			.product-loop-action .yith-wcwl-wishlistaddedbrowse.show,
-			.product-loop-action .yith-wcwl-wishlistexistsbrowse.show,
 			.product-loop-action .added_to_cart,
-			.product-loop-image-wrapper .tinv-wraper .tinvwl_add_to_wishlist_button:hover,
 			.related .tns-controls button:hover,
 			.up-sells .tns-controls button:hover,
 			.woostify-product-recently-viewed-section .tns-controls button:hover {
 				background-color: ' . esc_attr( $options['button_hover_background_color'] ) . ';
-			}
-
-			@media (min-width: 992px) {
-				.main-navigation .primary-navigation > .menu-item ul:not(.sub-mega-menu) a.tinvwl_add_to_wishlist_button:hover {
-					background-color: ' . esc_attr( $options['button_hover_background_color'] ) . ';
-				}
 			}
 
 			.button,
@@ -1072,7 +1060,6 @@ class Woostify_Get_CSS {
 			.price_slider_wrapper .ui-widget-header,
 			.price_slider_wrapper .ui-slider-handle,
 			.cart-sidebar-head .shop-cart-count,
-			.wishlist-item-count,
 			.shop-cart-count,
 			.sidebar-menu .primary-navigation a:before,
 			.woocommerce-message,
@@ -1120,9 +1107,6 @@ class Woostify_Get_CSS {
 				}
 				.has-header-transparent .site-tools .tools-icon {
 					color: ' . esc_attr( $options['header_transparent_icon_color'] ) . ';
-				}
-				.has-header-transparent .wishlist-item-count, .has-header-transparent .shop-cart-count {
-					background-color: ' . esc_attr( $options['header_transparent_count_background'] ) . ';
 				}
 			';
 		}
@@ -1547,22 +1531,6 @@ class Woostify_Get_CSS {
 			}
 			$styles .= $hide_classes . '{ display: none !important; }';
 		}
-
-		// YITH Woocommerce Wishlist.
-		$styles .= '
-		.product-loop-action .yith-wcwl-add-to-wishlist a {
-			color: ' . esc_attr( $options['text_color'] ) . ';
-		}
-		.product-loop-action .yith-wcwl-add-to-wishlist a:hover {
-			background-color: ' . esc_attr( $options['button_hover_background_color'] ) . ';
-		}
-		.product-loop-action .yith-wcwl-add-to-wishlist:hover .feedback {
-			background-color: ' . esc_attr( $options['button_hover_background_color'] ) . ';
-		}
-		.loop-wrapper-wishlist .feedback:hover {
-			background-color: ' . esc_attr( $options['text_color'] ) . ';
-		}
-		';
 
 		// Blog Page.
 		$styles .= '

@@ -2047,26 +2047,6 @@ if ( ! function_exists( 'woostify_sidebar_menu_close' ) ) {
 	}
 }
 
-if ( ! function_exists( 'woostify_get_wishlist_count' ) ) {
-	/**
-	 * Get wishlist count
-	 */
-	function woostify_get_wishlist_count() {
-		$options = woostify_options( false );
-		$plugin  = $options['shop_page_wishlist_support_plugin'];
-		$count   = 0;
-
-		if ( 'ti' === $plugin && class_exists( 'TInvWL_Public_WishlistCounter' ) ) {
-			$ti    = TInvWL_Public_WishlistCounter::instance();
-			$count = $ti->counter();
-		} elseif ( 'yith' === $plugin && function_exists( 'yith_wcwl_count_all_products' ) ) {
-			$count = yith_wcwl_count_all_products();
-		}
-
-		return $count;
-	}
-}
-
 if ( ! function_exists( 'woostify_account_login_lightbox' ) ) {
 	/**
 	 * Popup account login
@@ -2121,7 +2101,6 @@ if ( ! function_exists( 'woostify_header_action' ) ) {
 		}
 
 		$search_icon     = apply_filters( 'woostify_header_search_icon', 'search' );
-		$wishlist_icon   = apply_filters( 'woostify_header_wishlist_icon', 'heart' );
 		$my_account_icon = apply_filters( 'woostify_header_my_account_icon', 'user' );
 		$shop_bag_icon   = apply_filters( 'woostify_header_shop_bag_icon', 'shopping-cart' );
 		?>
@@ -2140,19 +2119,6 @@ if ( ! function_exists( 'woostify_header_action' ) ) {
 
 			if ( woostify_is_woocommerce_activated() ) {
 				do_action( 'woostify_site_tool_before_second_item' );
-
-				// Wishlist icon.
-				if ( $options['header_wishlist_icon'] && woostify_support_wishlist_plugin() ) {
-					$wishlist_item_count = woostify_get_wishlist_count();
-					?>
-					<a href="<?php echo esc_url( woostify_wishlist_page_url() ); ?>" class="tools-icon header-wishlist-icon">
-						<?php Woostify_Icon::fetch_svg_icon( $wishlist_icon ); ?>
-						<?php if ( 'ti' === $options['shop_page_wishlist_support_plugin'] && function_exists( 'tinv_get_option' ) && tinv_get_option( 'topline', 'show_counter' ) ) { ?>
-							<span class="theme-item-count wishlist-item-count"><?php echo esc_html( $wishlist_item_count ); ?></span>
-						<?php } ?>
-					</a>
-					<?php
-				}
 
 				do_action( 'woostify_site_tool_before_third_item' );
 
@@ -2513,27 +2479,6 @@ if ( ! function_exists( 'woostify_sticky_footer_bar' ) ) {
 				continue;
 			}
 			switch ( $item->type ) {
-				case 'wishlist':
-					// Wishlist icon.
-					if ( woostify_support_wishlist_plugin() ) {
-						$wishlist_item_count = woostify_get_wishlist_count();
-						?>
-						<li class="woostify-item-list__item woostify-addon">
-							<a href="<?php echo esc_url( woostify_wishlist_page_url() ); ?>" class="header-wishlist-icon">
-								<?php if ( '' !== $item->icon ) { ?>
-									<span class="woostify-item-list-item__icon ">
-									<span class="woositfy-sfb-icon">
-										<?php Woostify_Icon::fetch_svg_icon( $item->icon ); ?>
-									</span>
-									<span class="theme-item-count wishlist-item-count"><?php echo esc_html( $wishlist_item_count ); ?></span>
-								</span>
-								<?php } ?>
-								<span class="woostify-item-list-item__name"><?php echo esc_html( $item->name ); ?></span>
-							</a>
-						</li>
-						<?php
-					}
-					break;
 				case 'shortcode':
 					?>
 					<li class="woostify-item-list__item woostify-addon woostify-shortcode-addon">
