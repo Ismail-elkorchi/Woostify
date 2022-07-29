@@ -161,21 +161,6 @@ if ( ! function_exists( 'woostify_elementor_has_location' ) ) {
 	}
 }
 
-if ( ! function_exists( 'woostify_is_elementor_editor' ) ) {
-	/**
-	 * Condition if Current screen is Edit mode || Preview mode.
-	 */
-	function woostify_is_elementor_editor() {
-		if ( ! woostify_is_elementor_activated() ) {
-			return false;
-		}
-
-		$editor = ( \Elementor\Plugin::$instance->editor->is_edit_mode() || \Elementor\Plugin::$instance->preview->is_preview_mode() );
-
-		return $editor;
-	}
-}
-
 if ( ! function_exists( 'woostify_sanitize_array' ) ) {
 	/**
 	 * Sanitize integer value
