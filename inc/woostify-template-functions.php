@@ -1900,14 +1900,8 @@ if ( ! function_exists( 'woostify_sidebar_class' ) ) {
 		$sidebar_shop        = 'default' !== $metabox_sidebar ? $metabox_sidebar : $options['sidebar_shop'];
 		$sidebar_shop_single = 'default' !== $metabox_sidebar ? $metabox_sidebar : $options['sidebar_shop_single'];
 
-		// Dokan support.
-		$dokan_store_sidebar = false;
-		$is_dokan_store      = class_exists( 'WeDevs_Dokan' ) && woostify_is_woocommerce_activated() && dokan_is_store_page();
-		if ( $is_dokan_store && 'off' === dokan_get_option( 'enable_theme_store_sidebar', 'dokan_appearance', 'off' ) ) {
-			$dokan_store_sidebar = true;
-		}
 
-		if ( is_404() || $dokan_store_sidebar || ( class_exists( 'woocommerce' ) && ( is_cart() || is_checkout() || is_account_page() ) ) ) {
+		if ( is_404() || ( class_exists( 'woocommerce' ) && ( is_cart() || is_checkout() || is_account_page() ) ) ) {
 			return $sidebar;
 		}
 
@@ -1940,13 +1934,8 @@ if ( ! function_exists( 'woostify_get_sidebar' ) ) {
 	 */
 	function woostify_get_sidebar() {
 		$sidebar             = woostify_sidebar_class();
-		$dokan_store_sidebar = false;
-		$is_dokan_store      = class_exists( 'WeDevs_Dokan' ) && woostify_is_woocommerce_activated() && dokan_is_store_page();
-		if ( $is_dokan_store && 'off' === dokan_get_option( 'enable_theme_store_sidebar', 'dokan_appearance', 'off' ) ) {
-			$dokan_store_sidebar = true;
-		}
 
-		if ( false !== strpos( $sidebar, 'no-sidebar' ) || ! $sidebar || $dokan_store_sidebar ) {
+		if ( false !== strpos( $sidebar, 'no-sidebar' ) || ! $sidebar ) {
 			return;
 		}
 

@@ -730,11 +730,6 @@ if ( ! class_exists( 'Woostify_WooCommerce' ) ) {
 				}
 			}
 
-			// Dokan support.
-			if ( class_exists( 'WeDevs_Dokan' ) && woostify_is_woocommerce_activated() && dokan_is_store_page() ) {
-				$classes[] = 'off' === dokan_get_option( 'enable_theme_store_sidebar', 'dokan_appearance', 'off' ) ? 'has-dokan-sidebar' : 'dokan-with-theme-sidebar';
-			}
-
 			// Elementor theme builder shop archive.
 			if ( is_shop() && woostify_elementor_has_location( 'archive' ) ) {
 				$classes[] = 'has-elementor-location-shop-archive';
