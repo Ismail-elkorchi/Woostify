@@ -25,7 +25,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 			add_filter( 'language_attributes', 'woostify_info' );
 
 			add_action( 'after_setup_theme', array( $this, 'woostify_setup' ) );
-			add_action( 'wp', array( $this, 'woostify_wp_action' ) );
 			add_action( 'widgets_init', array( $this, 'woostify_widgets_init' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'woostify_scripts' ), 10 );
 			add_filter( 'wpcf7_load_css', '__return_false' );
@@ -33,11 +32,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 
 			// Search form.
 			add_filter( 'get_search_form', 'woostify_custom_search_form', 10, 2 );
-
-			// ELEMENTOR.
-			add_action( 'elementor/theme/register_locations', array( $this, 'woostify_register_elementor_locations' ) );
-			add_action( 'elementor/preview/enqueue_scripts', array( $this, 'woostify_elementor_preview_scripts' ) );
-			add_action( 'init', array( $this, 'woostify_elementor_global_colors' ) );
 
 			// Add Image column on blog list in admin screen.
 			add_filter( 'manage_post_posts_columns', array( $this, 'woostify_columns_head' ), 10 );
@@ -50,160 +44,10 @@ if ( ! class_exists( 'Woostify' ) ) {
 			add_filter( 'wp_tag_cloud', array( $this, 'woostify_remove_tag_inline_style' ) );
 			add_filter( 'excerpt_more', array( $this, 'woostify_modify_excerpt_more' ) );
 
-			// Compatibility.
-			add_action( 'elementor/widgets/widgets_registered', array( $this, 'woostify_add_elementor_widget' ) );
-
 			add_action( 'wp_head', array( $this, 'sticky_footer_bar' ), 15 );
 
 			// CONTENT.
 			add_filter( 'wp_kses_allowed_html', 'woostify_modify_wp_kses_allowed_html' );
-		}
-
-		/**
-		 * Ahihi
-		 *
-		 * @param string   $item_output The menu item's starting HTML output.
-		 * @param WP_Post  $item Menu item data object.
-		 * @param int      $depth Depth of menu item. Used for padding.
-		 * @param stdClass $args An object of wp_nav_menu() arguments.
-		 */
-		public function woostify_nav_menu_start_el( $item_output, $item, $depth, $args ) {
-			if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
-				$t = '';
-				$n = '';
-			} else {
-				$t = "\t";
-				$n = "\n";
-			}
-
-			if ( 'mega_menu' === $item->object ) {
-				$this->megamenu_width = get_post_meta( $item->ID, 'woostify_mega_menu_item_width', true );
-				$this->megamenu_width = '' !== $this->megamenu_width ? $this->megamenu_width : 'content';
-				$this->megamenu_url   = get_post_meta( $item->ID, 'woostify_mega_menu_item_url', true );
-				$this->megamenu_icon  = get_post_meta( $item->ID, 'woostify_mega_menu_item_icon', true );
-				$this->megamenu_icon  = str_replace( 'ti-', '', $this->megamenu_icon );
-
-				$classes[] = 'menu-item-has-children';
-				$classes[] = 'menu-item-has-mega-menu';
-				$classes[] = 'has-mega-menu-' . $this->megamenu_width . '-width';
-				$classes[] = woostify_is_elementor_page( $item->object_id ) ? 'mega-menu-elementor' : '';
-				$classes   = array_filter( $classes );
-			} else {
-				$classes = array_filter( $item->classes );
-			}
-
-			$indent      = ( $depth ) ? str_repeat( $t, $depth ) : '';
-			$classes     = array_filter( $item->classes );
-			$has_child   = in_array( 'menu-item-has-children', $classes, true ) ? true : false;
-			$class_names = implode( ' ', $classes );
-			$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
-
-			// Ids.
-			$id = apply_filters( 'nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args, $depth );
-			$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
-
-			// Start output.
-			$item_output = $indent . '<li' . $id . $class_names . '>';
-
-			// Attributes.
-			$atts           = array();
-			$atts['target'] = ! empty( $item->target ) ? $item->target : '';
-			$atts['rel']    = ! empty( $item->xfn ) ? $item->xfn : '';
-			$atts['href']   = ! empty( $item->url ) ? $item->url : '';
-			$atts           = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
-			$attributes     = '';
-
-			foreach ( $atts as $attr => $value ) {
-				if ( ! empty( $value ) ) {
-					$value       = 'href' === $attr ? esc_url( $value ) : esc_attr( $value );
-					$value       = 'mega_menu' === $item->object ? $href : $value;
-					$attributes .= ' ' . $attr . '="' . $value . '"';
-				}
-			}
-
-			$item_output .= $args->before;
-
-			if ( ! empty( $item->attr_title ) ) {
-				$item_output .= '<a' . $attributes . ' title="' . esc_attr( $item->attr_title ) . '">';
-			} else {
-				$item_output .= '<a' . $attributes . '>';
-			}
-
-			// Menu icon.
-			if ( 'mega_menu' === $item->object && $this->megamenu_icon ) {
-				$item_output .= '<span class="menu-item-icon">';
-				$item_output .= Woostify_Icon::fetch_svg_icon( $this->megamenu_icon, false );
-				$item_output .= '</span>';
-			}
-
-			$title = apply_filters( 'the_title', $item->title, $item->ID );
-			$title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
-
-			// Menu item text.
-			$item_output .= $args->link_before . '<span class="menu-item-text">' . $title . '</span>' . $args->link_after;
-
-			// Add arrow icon.
-			if ( $has_child ) {
-				$item_output .= '<span class="menu-item-arrow arrow-icon">' . Woostify_Icon::fetch_svg_icon( 'angle-down', false ) . '</span>';
-			}
-
-			$item_output .= '</a>';
-
-			// Start Mega menu content.
-			if ( 'mega_menu' === $item->object && 0 === $depth && ! woostify_is_elementor_editor() ) {
-				$item_output .= '<ul class="sub-mega-menu">';
-				$item_output .= '<div class="mega-menu-wrapper">';
-
-				if ( woostify_is_elementor_page( $item->object_id ) ) {
-					$frontend     = new \Elementor\Frontend();
-					$item_output .= $frontend->get_builder_content_for_display( $item->object_id, true );
-					wp_enqueue_style( 'elementor-frontend' );
-					wp_reset_postdata();
-				} else {
-					$mega_args = array(
-						'p'                   => $item->object_id,
-						'post_type'           => 'mega_menu',
-						'post_status'         => 'publish',
-						'posts_per_page'      => 1,
-						'ignore_sticky_posts' => 1,
-					);
-
-					$query = new WP_Query( $mega_args );
-
-					if ( $query->have_posts() ) {
-						ob_start();
-						echo '<div class="mega-menu-inner-wrapper">';
-						while ( $query->have_posts() ) {
-							$query->the_post();
-
-							the_content();
-						}
-						echo '</div>';
-						$item_output .= ob_get_clean();
-
-						// Reset post data.
-						wp_reset_postdata();
-					}
-				}
-
-				$item_output .= '</div>';
-				$item_output .= '</ul>';
-			} // End Mega menu content.
-
-			$item_output .= $args->after;
-
-			return $item_output;
-		}
-
-		/**
-		 * Add elementor widget
-		 */
-		public function woostify_add_elementor_widget() {
-			if ( ! woostify_is_elementor_activated() ) {
-				return;
-			}
-
-			require_once WOOSTIFY_THEME_DIR . 'inc/compatibility/elementor/class-woostify-elementor-single-product-images.php';
 		}
 
 		/**
@@ -495,25 +339,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 
 			// Boostify Header Footer plugin support.
 			add_theme_support( 'boostify-header-footer' );
-		}
-
-		/**
-		 * WP Action
-		 */
-		public function woostify_wp_action() {
-			// Support Elementor Pro - Theme Builder.
-			if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-				return;
-			}
-
-			if ( woostify_elementor_has_location( 'header' ) && woostify_elementor_has_location( 'footer' ) ) {
-				add_action( 'woostify_theme_header', 'woostify_view_open', 0 );
-				add_action( 'woostify_after_footer', 'woostify_view_close', 0 );
-			} elseif ( woostify_elementor_has_location( 'header' ) && ! woostify_elementor_has_location( 'footer' ) ) {
-				add_action( 'woostify_theme_header', 'woostify_view_open', 0 );
-			} elseif ( ! woostify_elementor_has_location( 'header' ) && woostify_elementor_has_location( 'footer' ) ) {
-				add_action( 'woostify_after_footer', 'woostify_view_close', 0 );
-			}
 		}
 
 		/**
@@ -893,45 +718,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 		}
 
 		/**
-		 * Support Elementor Location
-		 *
-		 * @param array|object $elementor_theme_manager The elementor theme manager.
-		 */
-		public function woostify_register_elementor_locations( $elementor_theme_manager ) {
-			$elementor_theme_manager->register_location(
-				'header',
-				array(
-					'hook'         => 'woostify_theme_header',
-					'remove_hooks' => array( 'woostify_template_header' ),
-				)
-			);
-
-			$elementor_theme_manager->register_location(
-				'footer',
-				array(
-					'hook'         => 'woostify_theme_footer',
-					'remove_hooks' => array( 'woostify_template_footer' ),
-				)
-			);
-
-			$elementor_theme_manager->register_all_core_location();
-		}
-
-		/**
-		 * Elementor pewview scripts
-		 */
-		public function woostify_elementor_preview_scripts() {
-			// Elementor widgets js.
-			wp_enqueue_script(
-				'woostify-elementor-live-preview',
-				WOOSTIFY_THEME_URI . 'assets/js/elementor-preview' . woostify_suffix() . '.js',
-				array(),
-				woostify_version(),
-				true
-			);
-		}
-
-		/**
 		 * Limit the character length in exerpt
 		 *
 		 * @param int $length The length.
@@ -1004,11 +790,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 			// Blog page layout.
 			$classes[] = ( ( ! is_singular( 'post' ) && woostify_is_blog() ) || ( is_search() && 'any' === get_query_var( 'post_type' ) ) ) ? 'blog-layout-' . $options['blog_list_layout'] : '';
 
-			// Disable cart sidebar.
-			if ( ( defined( 'ELEMENTOR_PRO_VERSION' ) && 'yes' === get_option( 'elementor_use_mini_cart_template' ) ) || defined( 'XOO_WSC_PLUGIN_FILE' ) ) {
-				$classes[] = 'no-cart-sidebar';
-			}
-
 			return array_filter( $classes );
 		}
 
@@ -1061,106 +842,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 			$more = apply_filters( 'woostify_excerpt_more', '...' );
 
 			return $more;
-		}
-
-		/**
-		 * Add color to Elementor Global Color
-		 */
-		public function woostify_elementor_global_colors() {
-			if ( '__DEFAULT__' === get_option( 'elementor_disable_color_schemes', '__DEFAULT__' ) ) {
-				update_option( 'elementor_disable_color_schemes', 'yes' );
-			}
-
-			add_filter(
-				'elementor/schemes/enabled_schemes',
-				function ( $s ) {
-					return $s;
-				}
-			);
-
-			add_filter(
-				'rest_request_after_callbacks',
-				function ( $response, $handler, $request ) {
-					$options = woostify_options( false );
-					$route   = $request->get_route();
-					$rest_id = substr( $route, strrpos( $route, '/' ) + 1 );
-
-					$palettes = array(
-						'woostify_color_1' => array(
-							'id'    => 'woostify_color_1',
-							'title' => __( 'Theme Primary Color', 'woostify' ),
-							'value' => $options['theme_color'],
-						),
-
-						'woostify_color_2' => array(
-							'id'    => 'woostify_color_2',
-							'title' => __( 'Theme Text Color', 'woostify' ),
-							'value' => $options['text_color'],
-						),
-
-						'woostify_color_3' => array(
-							'id'    => 'woostify_color_3',
-							'title' => __( 'Theme Accent Color', 'woostify' ),
-							'value' => $options['accent_color'],
-						),
-
-						'woostify_color_6' => array(
-							'id'    => 'woostify_color_6',
-							'title' => __( 'Theme Link Hover Color', 'woostify' ),
-							'value' => $options['link_hover_color'],
-						),
-
-						'woostify_color_4' => array(
-							'id'    => 'woostify_color_4',
-							'title' => __( 'Theme Extra Color 1', 'woostify' ),
-							'value' => $options['extra_color_1'],
-						),
-
-						'woostify_color_5' => array(
-							'id'    => 'woostify_color_5',
-							'title' => __( 'Theme Extra Color 2', 'woostify' ),
-							'value' => $options['extra_color_2'],
-						),
-					);
-
-					if ( isset( $palettes[ $rest_id ] ) ) {
-						return new \WP_REST_Response( $palettes[ $rest_id ] );
-					}
-
-					if ( '/elementor/v1/globals' === $route ) {
-						$data   = $response->get_data();
-						$colors = array(
-							'color1' => $options['theme_color'],
-							'color2' => $options['text_color'],
-							'color3' => $options['accent_color'],
-							'color6' => $options['link_hover_color'],
-							'color4' => $options['extra_color_1'],
-							'color5' => $options['extra_color_2'],
-						);
-
-						$colors_for_palette = array(
-							'woostify_color_1' => 'color1',
-							'woostify_color_2' => 'color2',
-							'woostify_color_3' => 'color3',
-							'woostify_color_6' => 'color6',
-							'woostify_color_4' => 'color4',
-							'woostify_color_5' => 'color5',
-						);
-
-						foreach ( $palettes as $key => $value ) {
-							$value['value'] = $colors[ $colors_for_palette[ $key ] ];
-
-							$data['colors'][ $key ] = $value;
-						}
-
-						$response->set_data( $data );
-					}
-
-					return $response;
-				},
-				1000,
-				3
-			);
 		}
 	}
 
