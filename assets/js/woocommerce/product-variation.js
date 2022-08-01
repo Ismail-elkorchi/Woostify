@@ -42,15 +42,6 @@ function productVariation( selector, form ) {
 		return;
 	}
 
-	// Support Product meta widget.
-	var productMetaSku        = document.querySelector( '.elementor-widget-woostify-product-meta .sku' ),
-		productMetaSkuDefault = productMetaSku ? productMetaSku.innerHTML : '',
-		wpmGtinCodeWrapper    = document.querySelector( '.wpm_gtin_code_wrapper .wpm_pgw_code' );
-
-	if ( wpmGtinCodeWrapper ) {
-		wpmGtinCodeWrapper.innerHTML = productMetaSkuDefault;
-	}
-
 	jQuery( document.body ).on(
 		'found_variation',
 		variationsForm,
@@ -67,10 +58,6 @@ function productVariation( selector, form ) {
 			// Support Product meta widget.
 			if ( productMetaSku ) {
 				productMetaSku.innerHTML = variation.sku;
-			}
-
-			if ( wpmGtinCodeWrapper && variation.wpm_pgw_code ) {
-				wpmGtinCodeWrapper.innerHTML = variation.wpm_pgw_code;
 			}
 
 			// Photoswipe + zoom.
@@ -146,15 +133,6 @@ function productVariation( selector, form ) {
 		'click',
 		function( e ) {
 			e.preventDefault();
-
-			// Support Product meta widget.
-			if ( productMetaSkuDefault ) {
-				productMetaSku.innerHTML = productMetaSkuDefault;
-			}
-
-			if ( wpmGtinCodeWrapper ) {
-				wpmGtinCodeWrapper.innerHTML = productMetaSkuDefault;
-			}
 
 			// Reset src image.
 			if ( image ) {
