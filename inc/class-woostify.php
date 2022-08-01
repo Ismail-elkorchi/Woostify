@@ -27,7 +27,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 			add_action( 'after_setup_theme', array( $this, 'woostify_setup' ) );
 			add_action( 'widgets_init', array( $this, 'woostify_widgets_init' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'woostify_scripts' ), 10 );
-			add_filter( 'wpcf7_load_css', '__return_false' );
 			add_filter( 'excerpt_length', array( $this, 'woostify_limit_excerpt_character' ), 99 );
 
 			// Search form.
