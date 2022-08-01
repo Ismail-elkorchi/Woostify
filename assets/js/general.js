@@ -95,20 +95,12 @@ function dialogPopup( targetClickClass, popupTarget, type ) {
 	var targetClickEl = document.getElementsByClassName( targetClickClass ),
 		popupEl       = document.querySelector( popupTarget ),
 		popupCloseBtn = document.querySelector( popupTarget + ' .dialog-' + type + '-close-icon' ),
-		searchField,popupInnerEl,popupContentEl,aslSearchField;
+		searchField,popupInnerEl,popupContentEl;
 
 	if ( 'search' === type ) {
 		searchField = document.querySelector( popupTarget + ' .search-field' );
-		// Get input search of plugin Ajax Search Lite.
-		aslSearchField = document.querySelector( popupTarget + ' .proinput input.orig' );
 		if ( ! searchField ) {
-			if ( '1' === woostify_general_params.is_active_asl ) {
-				if ( ! aslSearchField ) {
-					return;
-				}
-			} else {
-				return;
-			}
+			return;
 		}
 	}
 
