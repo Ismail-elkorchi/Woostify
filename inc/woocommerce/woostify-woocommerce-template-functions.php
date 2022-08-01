@@ -7,18 +7,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-if ( ! function_exists( 'woostify_elementor_preview_product_page_scripts' ) ) {
-	/**
-	 * Global variation gallery
-	 */
-	function woostify_elementor_preview_product_page_scripts() {
-		$product = wc_get_product( woostify_get_last_product_id() );
-		if ( ! is_object( $product ) ) {
-			woostify_global_for_vartiation_gallery( $product );
-		}
-	}
-}
-
 if ( ! function_exists( 'woostify_ajax_update_quantity_in_mini_cart' ) ) {
 	/**
 	 * Update product quantity in minicart
@@ -415,11 +403,6 @@ if ( ! function_exists( 'woostify_woocommerce_cart_sidebar' ) ) {
 	 * Cart sidebar
 	 */
 	function woostify_woocommerce_cart_sidebar() {
-		// Not print Cart sidebar if Mini Cart Template	- Elementor Pro enable || Side Cart plugin install.
-		if ( ( defined( 'ELEMENTOR_PRO_VERSION' ) && 'yes' === get_option( 'elementor_use_mini_cart_template' ) ) || defined( 'XOO_WSC_PLUGIN_FILE' ) ) {
-			return;
-		}
-
 		$total = WC()->cart->cart_contents_count;
 		?>
 			<div id="shop-cart-sidebar">

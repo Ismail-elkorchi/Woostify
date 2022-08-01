@@ -45,7 +45,6 @@ if ( ! class_exists( 'Woostify_WooCommerce' ) ) {
 			add_action( 'init', 'woostify_detect_clear_cart_submit' );
 			add_filter( 'loop_shop_columns', 'woostify_products_per_row' );
 			add_filter( 'loop_shop_per_page', 'woostify_products_per_page' );
-			add_action( 'elementor/preview/enqueue_scripts', 'woostify_elementor_preview_product_page_scripts' );
 			add_filter( 'woocommerce_cross_sells_total', 'woostify_change_cross_sells_total' );
 			add_filter( 'woocommerce_cross_sells_columns', 'woostify_change_cross_sells_columns' );
 			add_filter( 'woocommerce_show_page_title', 'woostify_remove_woocommerce_shop_title' );
@@ -648,19 +647,6 @@ if ( ! class_exists( 'Woostify_WooCommerce' ) ) {
 				$classes[] = 'disabled-icon-add-cart-button';
 			}
 
-			// Disabled side cart if user use elementor mini cart.
-			if ( defined( 'ELEMENTOR_PRO_VERSION' ) ) {
-				if ( get_option( 'elementor_use_mini_cart_template' ) ) {
-					if ( 'yes' === get_option( 'elementor_use_mini_cart_template' ) ) {
-						$classes[] = 'disabled-sidebar-cart';
-					} else {
-						$classes[] = 'hide-added-to-cart';
-					}
-				} else {
-					$classes[] = 'hide-added-to-cart';
-				}
-			}
-
 			// Product gallery.
 			$page_id = woostify_get_page_id();
 			$product = wc_get_product( $page_id );
@@ -728,11 +714,6 @@ if ( ! class_exists( 'Woostify_WooCommerce' ) ) {
 				if ( $multi_step && $disable_multi_step ) {
 					$classes[] = 'has-multi-step-checkout';
 				}
-			}
-
-			// Elementor theme builder shop archive.
-			if ( is_shop() && woostify_elementor_has_location( 'archive' ) ) {
-				$classes[] = 'has-elementor-location-shop-archive';
 			}
 
 			return array_filter( $classes );

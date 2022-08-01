@@ -168,34 +168,6 @@ if ( ! class_exists( 'Woostify_Customizer' ) ) :
 		}
 
 		/**
-		 * Get color global elementor
-		 *
-		 * @return array
-		 */
-		public function get_color_global_elementor() {
-			$colors = array();
-			if ( woostify_is_elementor_activated() && isset( \Elementor\Plugin::$instance->kits_manager ) ) {
-				$kits_manager = \Elementor\Plugin::$instance->kits_manager;
-
-				$system_colors = $kits_manager->get_current_settings( 'system_colors' );
-
-				foreach ( $system_colors as $sc_k => $value ) {
-					unset( $value['_id'] );
-					array_push( $colors, $value );
-				}
-
-				$custom_colors = $kits_manager->get_current_settings( 'custom_colors' );
-
-				foreach ( $custom_colors as $cc_k => $value ) {
-					unset( $value['_id'] );
-					array_push( $colors, $value );
-				}
-			}
-
-			return $colors;
-		}
-
-		/**
 		 * Add script for customize controls
 		 */
 		public function woostify_customize_controls_scripts() {
@@ -205,14 +177,6 @@ if ( ! class_exists( 'Woostify_Customizer' ) ) :
 				array(),
 				woostify_version(),
 				true
-			);
-
-			wp_localize_script(
-				'woostify-color-group',
-				'woostify_color_group',
-				array(
-					'elementor_colors' => $this->get_color_global_elementor(),
-				)
 			);
 		}
 

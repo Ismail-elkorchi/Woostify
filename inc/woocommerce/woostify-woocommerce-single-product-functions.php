@@ -621,7 +621,7 @@ if ( ! function_exists( 'woostify_product_recently_viewed_template' ) ) {
 	function woostify_product_recently_viewed_template() {
 		$options = woostify_options( false );
 		$cookies = isset( $_COOKIE['woostify_product_recently_viewed'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['woostify_product_recently_viewed'] ) ) : false;
-		if ( ! $cookies || ! $options['shop_single_product_recently_viewed'] || ! is_singular( 'product' ) || woostify_elementor_has_location( 'single' ) ) {
+		if ( ! $cookies || ! $options['shop_single_product_recently_viewed'] || ! is_singular( 'product' ) ) {
 			return;
 		}
 
@@ -669,10 +669,6 @@ if ( ! function_exists( 'woostify_single_ajax_add_to_cart_status' ) ) {
 	 * On/off single ajax add to cart
 	 */
 	function woostify_single_ajax_add_to_cart_status() {
-		if ( ( defined( 'ELEMENTOR_PRO_VERSION' ) && 'yes' === get_option( 'elementor_use_mini_cart_template' ) ) || defined( 'XOO_WSC_PLUGIN_FILE' ) ) {
-			return false;
-		}
-
 		$options = woostify_options( false );
 		return $options['shop_single_ajax_add_to_cart'];
 	}

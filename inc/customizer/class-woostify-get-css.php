@@ -317,7 +317,6 @@ class Woostify_Get_CSS {
 		if ( $logo_width && $logo_width > 0 ) {
 			$styles .= '
 				@media ( min-width: 769px ) {
-					.elementor .site-branding img,
 					.site-branding img{
 						max-width: ' . esc_attr( $logo_width ) . 'px;
 					}
@@ -328,7 +327,6 @@ class Woostify_Get_CSS {
 		if ( $tablet_logo_width && $tablet_logo_width > 0 ) {
 			$styles .= '
 				@media ( min-width: 481px ) and ( max-width: 768px ) {
-					.elementor .site-branding img,
 					.site-branding img{
 						max-width: ' . esc_attr( $tablet_logo_width ) . 'px;
 					}
@@ -339,7 +337,6 @@ class Woostify_Get_CSS {
 		if ( $mobile_logo_width && $mobile_logo_width > 0 ) {
 			$styles .= '
 				@media ( max-width: 480px ) {
-					.elementor .site-branding img,
 					.site-branding img{
 						max-width: ' . esc_attr( $mobile_logo_width ) . 'px;
 					}
@@ -735,10 +732,6 @@ class Woostify_Get_CSS {
 				background-color: ' . esc_attr( $options['text_color'] ) . ';
 			}
 
-			.elementor-add-to-cart .quantity {
-				border: 1px solid ' . esc_attr( $options['text_color'] ) . ';
-			}
-
 			.product .woocommerce-loop-product__title{
 				font-size: ' . esc_attr( $options['body_font_size'] ) . 'px;
 			}
@@ -831,7 +824,6 @@ class Woostify_Get_CSS {
 			.sidebar-menu .primary-navigation .arrow-icon,
 			.default-widget a strong:hover,
 			.woostify-subscribe-form input,
-			.woostify-shop-category .elementor-widget-image .widget-image-caption,
 			.shop_table_responsive td:before,
 			.dialog-search-title,
 			.cart-collaterals th,
@@ -898,7 +890,7 @@ class Woostify_Get_CSS {
 			}
 
 			.woostify-button-bg-color,
-			.woocommerce-cart-form__contents:not(.elementor-menu-cart__products) .actions .coupon [name="apply_coupon"],
+			.woocommerce-cart-form__contents .actions .coupon [name="apply_coupon"],
 			.loop-add-to-cart-on-image+.added_to_cart,
 			.related .tns-controls button,
 			.up-sells .tns-controls button,
@@ -924,12 +916,10 @@ class Woostify_Get_CSS {
 			.button,
 			.woocommerce-widget-layered-nav-dropdown__submit,
 			.form-submit .submit,
-			.elementor-button-wrapper .elementor-button,
 			.has-woostify-contact-form input[type="submit"],
 			#secondary .widget a.button,
 			.product-loop-meta.no-transform .button,
-			.product-loop-meta.no-transform .added_to_cart,
-			[class*="elementor-kit"] .checkout-button {
+			.product-loop-meta.no-transform .added_to_cart {
 				background-color: ' . esc_attr( $options['button_background_color'] ) . ';
 				color: ' . esc_attr( $options['button_text_color'] ) . ';
 				border-radius: ' . esc_attr( $options['buttons_border_radius'] ) . 'px;
@@ -940,7 +930,7 @@ class Woostify_Get_CSS {
 				color: ' . esc_attr( $options['button_text_color'] ) . ';
 			}
 
-			.cart:not(.elementor-menu-cart__products) .quantity,
+			.cart .quantity,
 			.loop-add-to-cart-on-image+.added_to_cart,
 			.loop-product-qty .quantity,
 			.mini-cart-product-infor .mini-cart-quantity {
