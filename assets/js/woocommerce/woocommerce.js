@@ -337,7 +337,7 @@ var confettiSnowEffect = function( confetti, duration ) {
 
 // Product quantity on mini cart.
 var woostifyQuantityMiniCart = function() {
-	var cartCountContainer = document.querySelector( '.shopping-bag-button .shop-cart-count, .boostify-count-product' );
+	var cartCountContainer = document.querySelector( '.shopping-bag-button .shop-cart-count' );
 	var infor              = document.querySelectorAll( '.mini-cart-product-infor' );
 
 	if ( ! infor.length || ! cartCountContainer ) {
@@ -455,8 +455,8 @@ var woostifyQuantityMiniCart = function() {
 
 								var data                     = json.data,
 									totalPrice               = document.querySelector( '.cart-sidebar-content .woocommerce-mini-cart__total .woocommerce-Price-amount.amount' ),
-									headerCartPriceContainer = document.querySelectorAll( '.woostify-header-total-price, .boostify-subtotal' ),
-									productCount             = document.querySelectorAll( '.shop-cart-count, .boostify-count-product' ),
+									headerCartPriceContainer = document.querySelectorAll( '.woostify-header-total-price' ),
+									productCount             = document.querySelectorAll( '.shop-cart-count' ),
 									shipping_threshold       = document.querySelectorAll( '.free-shipping-progress-bar' );
 
 								// Update total price.

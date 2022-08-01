@@ -335,9 +335,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 					),
 				)
 			);
-
-			// Boostify Header Footer plugin support.
-			add_theme_support( 'boostify-header-footer' );
 		}
 
 		/**
