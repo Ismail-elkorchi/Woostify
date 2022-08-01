@@ -137,20 +137,6 @@ function customQuantity() {
 document.addEventListener(
 	'DOMContentLoaded',
 	function() {
-		// For preview mode.
-		if ( 'function' === typeof( onElementorLoaded ) ) {
-			onElementorLoaded(
-				function() {
-					window.elementorFrontend.hooks.addAction(
-						'frontend/element_ready/woostify-product-add-to-cart.default',
-						function() {
-							customQuantity();
-						}
-					);
-				}
-			);
-		}
-
 		// For frontend mode.
 		customQuantity();
 	}

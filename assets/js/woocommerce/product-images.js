@@ -339,11 +339,6 @@ document.addEventListener(
 				return;
 			}
 
-			// For Elementor Preview Mode.
-			if ( ! gallery ) {
-				gallery = document.querySelector( '.product-gallery' );
-			}
-
 			var images     = '',
 				thumbnails = '';
 
@@ -509,12 +504,6 @@ document.addEventListener(
 						},
 						200
 					);
-
-					if ( document.body.classList.contains( 'elementor-editor-active' ) || document.body.classList.contains( 'elementor-editor-preview' ) ) {
-						if ( ! document.getElementById( 'product-thumbnail-images' ) ) {
-							document.querySelector( '.product-gallery' ).classList.remove( 'has-product-thumbnails' );
-						}
-					}
 				}
 			);
 		}
@@ -537,23 +526,5 @@ document.addEventListener(
 				);
 			}
 		);
-
-		// For Elementor Preview Mode.
-		if ( 'function' === typeof( onElementorLoaded ) ) {
-			onElementorLoaded(
-				function() {
-					window.elementorFrontend.hooks.addAction(
-						'frontend/element_ready/global',
-						function() {
-							if ( document.getElementById( 'product-thumbnail-images' ) ) {
-								renderSlider( options.container, options );
-								renderSlider( thumbOptions.container, thumbOptions );
-							}
-							carouselAction();
-						}
-					);
-				}
-			);
-		}
 	}
 );

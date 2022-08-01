@@ -1150,19 +1150,5 @@ document.addEventListener(
 				}
 			}
 		}
-
-		// For Elementor Preview Mode.
-		if ( 'function' === typeof( onElementorLoaded ) ) {
-			onElementorLoaded(
-				function() {
-					window.elementorFrontend.hooks.addAction(
-						'frontend/element_ready/global',
-						function() {
-							productDataTabsAccordion();
-						}
-					);
-				}
-			);
-		}
 	}
 );

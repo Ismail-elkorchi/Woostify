@@ -619,7 +619,6 @@ document.addEventListener(
 				'.button.loop-add-to-cart-icon-btn,' +
 				'#order_review .shop_table .product-name',
 				'.price_slider_wrapper .price_slider, .has-woostify-text-background-color',
-				'.elementor-add-to-cart .quantity',
 			],
 			[
 				'text-shadow',
@@ -849,7 +848,7 @@ document.addEventListener(
 		// Border radius.
 		woostify_unit_live_update(
 			'buttons_border_radius',
-			'.cart .quantity, .button, .woocommerce-widget-layered-nav-dropdown__submit, .form-submit .submit, .elementor-button-wrapper .elementor-button, .has-woostify-contact-form input[type="submit"], #secondary .widget a.button, .product-loop-meta.no-transform .button, .loop-product-qty .quantity, .cart:not(.elementor-menu-cart__products) .quantity, [class*="elementor-kit"] .checkout-button, .mini-cart-product-infor .mini-cart-quantity',
+			'.cart .quantity, .button, .woocommerce-widget-layered-nav-dropdown__submit, .form-submit .submit, .has-woostify-contact-form input[type="submit"], #secondary .widget a.button, .product-loop-meta.no-transform .button, .loop-product-qty .quantity, .cart .quantity, .mini-cart-product-infor .mini-cart-quantity',
 			'border-radius',
 		)
 		woostify_color_group_live_update(
@@ -858,7 +857,7 @@ document.addEventListener(
 				'button_hover_text_color',
 			],
 			[
-				'.button, .woocommerce-widget-layered-nav-dropdown__submit, .form-submit .submit, .elementor-button-wrapper .elementor-button, .has-woostify-contact-form input[type="submit"], #secondary .widget a.button, .product-loop-meta.no-transform .button, .product-loop-meta.no-transform .added_to_cart',
+				'.button, .woocommerce-widget-layered-nav-dropdown__submit, .form-submit .submit, .has-woostify-contact-form input[type="submit"], #secondary .widget a.button, .product-loop-meta.no-transform .button, .product-loop-meta.no-transform .added_to_cart',
 				'.woostify-sticky-footer-bar .woostify-item-list__item a:hover .woostify-item-list-item__name',
 			],
 			[
@@ -871,7 +870,7 @@ document.addEventListener(
 				'button_hover_background_color',
 			],
 			[
-				'.button, .woocommerce-widget-layered-nav-dropdown__submit, .form-submit .submit, .elementor-button-wrapper .elementor-button, .has-woostify-contact-form input[type="submit"], #secondary .widget a.button, .product-loop-meta.no-transform .button, .product-loop-meta.no-transform .added_to_cart',
+				'.button, .woocommerce-widget-layered-nav-dropdown__submit, .form-submit .submit, .has-woostify-contact-form input[type="submit"], #secondary .widget a.button, .product-loop-meta.no-transform .button, .product-loop-meta.no-transform .added_to_cart',
 				'.woostify-sticky-footer-bar .woostify-item-list__item a:hover .woostify-item-list-item__name',
 			],
 			[
