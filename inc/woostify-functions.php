@@ -467,27 +467,6 @@ if ( ! function_exists( 'woostify_pingback' ) ) {
 	}
 }
 
-if ( ! function_exists( 'woostify_facebook_social' ) ) {
-	/**
-	 * Get Title and Image for Facebook share
-	 */
-	function woostify_facebook_social() {
-		if ( ! is_singular( 'product' ) ) {
-			return;
-		}
-
-		$id        = woostify_get_page_id();
-		$title     = get_the_title( $id );
-		$image     = wp_get_attachment_image_src( get_post_thumbnail_id( $id ), 'full' );
-		$image_src = $image ? $image[0] : wc_placeholder_img_src();
-		?>
-
-		<meta property="og:title" content="<?php echo esc_attr( $title ); ?>">
-		<meta property="og:image" content="<?php echo esc_attr( $image_src ); ?>">
-		<?php
-	}
-}
-
 if ( ! function_exists( 'woostify_array_insert' ) ) {
 	/**
 	 * Insert an array into another array before/after a certain key
