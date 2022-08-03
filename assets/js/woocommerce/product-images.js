@@ -332,7 +332,7 @@ document.addEventListener(
 
 		// Update gallery.
 		function updateGallery( data, reset, variationId ) {
-			if ( ! data.length || document.documentElement.classList.contains( 'quick-view-open' ) ) {
+			if ( ! data.length ) {
 				return;
 			}
 

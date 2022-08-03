@@ -16,9 +16,6 @@ function woostifyAjaxSingleHandleError( button ) {
 
 	// Remove loading.
 	button.classList.remove( 'loading' );
-
-	// Hide quick view popup when product added to cart.
-	document.documentElement.classList.remove( 'quick-view-open' );
 }
 
 function woostifyAjaxSingleUpdateFragments( button ) {

@@ -16,7 +16,7 @@ function easyZoomHandle() {
 
 	const image = jQuery( '.product-images .image-item' );
 
-	if ( ! image.length || document.documentElement.classList.contains( 'quick-view-open' ) ) {
+	if ( ! image.length ) {
 		return;
 	}
 
