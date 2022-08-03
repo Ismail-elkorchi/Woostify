@@ -3,6 +3,7 @@
     "@wordpress/eslint-plugin": "^12.8.0"
   },
   "scripts": {
-    "lint:js": "eslint 'assets/js/*.js' 'assets/js/woocommerce/*.js'"
+    "lint:js": "eslint 'assets/js/*.js' 'assets/js/woocommerce/*.js'",
+    "fix:js": "eslint 'assets/js/*.js' 'assets/js/woocommerce/*.js' --fix"
   }
 }
