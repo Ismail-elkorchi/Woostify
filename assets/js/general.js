@@ -4,6 +4,8 @@
  * @package
  */
 
+/* global jQuery */
+
 'use strict';
 
 Number.prototype.countDecimals = function() {

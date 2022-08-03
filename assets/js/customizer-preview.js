@@ -6,6 +6,8 @@
  * @package
  */
 
+/* global jQuery */
+
 'use strict';
 
 // Remove class with prefix.

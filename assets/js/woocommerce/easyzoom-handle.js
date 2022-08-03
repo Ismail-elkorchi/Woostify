@@ -4,6 +4,8 @@
  * @package
  */
 
+/* global jQuery */
+
 'use strict';
 
 // Use in product-variation.js.

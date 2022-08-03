@@ -4,7 +4,7 @@
  * @package
  */
 
-/* global woostify_product_images_slider_options, woostify_variation_gallery, woostify_default_gallery */
+/* global jQuery woostify_product_images_slider_options, woostify_variation_gallery, woostify_default_gallery */
 
 'use strict';
 

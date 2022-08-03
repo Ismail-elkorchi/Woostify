@@ -4,7 +4,7 @@
  * @package
  */
 
-/* global woostify_woocommerce_general, woostify_multi_step_checkout */
+/* global jQuery, woostify_woocommerce_general, woostify_multi_step_checkout */
 
 'use strict';
 
