@@ -1,17 +1,17 @@
 /**
  * Woocommerce sidebar
  *
- * @package woostify
+ * @package
  */
 
 'use strict';
 
 // Woocommerce sidebar on mobile.
 function woostifySidebarMobile() {
-	var sidebar = document.querySelector( '#secondary.shop-widget' ),
-		button  = document.querySelector( '#toggle-sidebar-mobile-button' ),
+	const sidebar = document.querySelector( '#secondary.shop-widget' ),
+		button = document.querySelector( '#toggle-sidebar-mobile-button' ),
 		overlay = document.getElementById( 'woostify-overlay' ),
-		html    = document.documentElement;
+		html = document.documentElement;
 
 	if ( ! sidebar || ! button ) {
 		return;
@@ -26,7 +26,7 @@ function woostifySidebarMobile() {
 		if ( overlay ) {
 			overlay.classList.add( 'active' );
 		}
-	}
+	};
 
 	if ( overlay ) {
 		overlay.onclick = function() {
@@ -34,7 +34,7 @@ function woostifySidebarMobile() {
 			overlay.classList.remove( 'active' );
 			button.classList.remove( 'active' );
 			html.classList.remove( 'sidebar-mobile-open' );
-		}
+		};
 	}
 }
 

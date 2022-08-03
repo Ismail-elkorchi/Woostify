@@ -1,38 +1,38 @@
 /**
  * Quantity button
  *
- * @package woostify
+ * @package
  */
 
 'use strict';
 
 // Create Minus button.
-var minusBtn = function() {
-	var minusBtn = document.createElement( 'span' );
-	var icon     = get_svg_icon( 'minus' );
+const minusBtn = function() {
+	const minusBtn = document.createElement( 'span' );
+	const icon = get_svg_icon( 'minus' );
 
 	minusBtn.setAttribute( 'class', 'product-qty' );
 	minusBtn.setAttribute( 'data-qty', 'minus' );
 	minusBtn.innerHTML = icon;
 
 	return minusBtn;
-}
+};
 
 // Create Plus button.
-var plusBtn = function() {
-	var plusBtn = document.createElement( 'span' );
-	var icon    = get_svg_icon( 'plus' );
+const plusBtn = function() {
+	const plusBtn = document.createElement( 'span' );
+	const icon = get_svg_icon( 'plus' );
 
 	plusBtn.setAttribute( 'class', 'product-qty' );
 	plusBtn.setAttribute( 'data-qty', 'plus' );
 	plusBtn.innerHTML = icon;
 
 	return plusBtn;
-}
+};
 
 // Add Minus and Plus button on Product Quantity.
 function customQuantity() {
-	var quantity = document.querySelectorAll( '.quantity' );
+	const quantity = document.querySelectorAll( '.quantity' );
 	if ( ! quantity.length ) {
 		return;
 	}
@@ -41,7 +41,7 @@ function customQuantity() {
 	quantity.forEach(
 		function( ele ) {
 			// Input.
-			var input = ele.querySelector( 'input.qty' );
+			const input = ele.querySelector( 'input.qty' );
 			if ( ! input ) {
 				return;
 			}
@@ -60,34 +60,34 @@ function customQuantity() {
 			}
 
 			// Vars.
-			var cart         = ele.closest( 'form.cart' ),
-				buttons      = ele.querySelectorAll( '.product-qty' ),
-				maxInput     = Number( input.getAttribute( 'max' ) || -1 ),
+			const cart = ele.closest( 'form.cart' ),
+				buttons = ele.querySelectorAll( '.product-qty' ),
+				maxInput = Number( input.getAttribute( 'max' ) || -1 ),
 				currInputVal = input.value,
-				eventChange  = new Event( 'change', { bubbles: true } );
+				eventChange = new Event( 'change', { bubbles: true } );
 
 			// Check valid quantity.
 			input.addEventListener(
 				'change',
 				function() {
-					var inputVal  = input.value,
-						min       = Number( input.getAttribute( 'min' ) || 0 ),
+					const inputVal = input.value,
+						min = Number( input.getAttribute( 'min' ) || 0 ),
 						ajaxReady = function() {
 							input.classList.remove( 'ajax-ready' );
 						};
 
 					if ( Number( inputVal ) < min || isNaN( inputVal ) || ( maxInput > 0 && ( Number( inputVal ) > maxInput ) ) ) {
 						alert( woostify_woocommerce_general.qty_warning );
-						input.value = currInputVal
+						input.value = currInputVal;
 						return;
 					}
 
 					// When quantity updated.
 					input.classList.add( 'ajax-ready' );
 
-					var loopWrapper = input.closest( '.product-loop-wrapper' );
+					const loopWrapper = input.closest( '.product-loop-wrapper' );
 					if ( loopWrapper ) {
-						var ajaxAddToCartBtn = loopWrapper.querySelector( '.add_to_cart_button' );
+						const ajaxAddToCartBtn = loopWrapper.querySelector( '.add_to_cart_button' );
 						if ( ajaxAddToCartBtn ) {
 							ajaxAddToCartBtn.setAttribute( 'data-quantity', inputVal );
 						}
@@ -96,14 +96,14 @@ function customQuantity() {
 			);
 
 			// Minus & Plus button click.
-			for ( var i = 0, j = buttons.length; i < j; i++ ) {
-				buttons[i].onclick = function() {
+			for ( let i = 0, j = buttons.length; i < j; i++ ) {
+				buttons[ i ].onclick = function() {
 					// Variables.
-					var t        = this,
-						current  = Number( input.value || 0 ),
-						step     = Number( input.getAttribute( 'step' ) || 1 ),
-						min      = Number( input.getAttribute( 'min' ) || 0 ),
-						max      = Number( input.getAttribute( 'max' ) ),
+					const t = this,
+						current = Number( input.value || 0 ),
+						step = Number( input.getAttribute( 'step' ) || 1 ),
+						min = Number( input.getAttribute( 'min' ) || 0 ),
+						max = Number( input.getAttribute( 'max' ) ),
 						dataType = t.getAttribute( 'data-qty' );
 
 					if ( 'minus' === dataType && current >= step ) { // Minus button.
@@ -124,11 +124,11 @@ function customQuantity() {
 					input.dispatchEvent( eventChange );
 
 					// Remove disable attribute on Update Cart button on Cart page.
-					var updateCart = document.querySelector( '[name=\'update_cart\']' );
+					const updateCart = document.querySelector( '[name=\'update_cart\']' );
 					if ( updateCart ) {
 						updateCart.disabled = false;
 					}
-				}
+				};
 			}
 		}
 	);

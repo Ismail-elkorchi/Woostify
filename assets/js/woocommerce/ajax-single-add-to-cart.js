@@ -1,14 +1,14 @@
 /**
  * Ajax single add to cart
  *
- * @package Woostify Pro
+ * @package
  */
 
 'use strict';
 
 function woostifyAjaxSingleHandleError( button ) {
 	// Event when added to cart.
-	if ( 'function' === typeof( eventCartSidebarClose ) ) {
+	if ( 'function' === typeof ( eventCartSidebarClose ) ) {
 		eventCartSidebarClose();
 	}
 
@@ -22,16 +22,16 @@ function woostifyAjaxSingleHandleError( button ) {
 function woostifyAjaxSingleUpdateFragments( button ) {
 	if ( woostify_woocommerce_general.shipping_threshold.enabled_shipping_threshold && woostify_woocommerce_general.shipping_threshold.enabled_shipping_threshold_effect ) {
 		var progress_bar = document.querySelectorAll( '.free-shipping-progress-bar' ),
-		percent          = 0;
+			percent = 0;
 		if ( progress_bar.length ) {
-			percent = parseInt( progress_bar[0].getAttribute( 'data-progress' ) );
+			percent = parseInt( progress_bar[ 0 ].getAttribute( 'data-progress' ) );
 		}
 	}
 
 	fetch(
 		wc_cart_fragments_params.wc_ajax_url.toString().replace( '%%endpoint%%', 'get_refreshed_fragments' ),
 		{
-			method: 'POST'
+			method: 'POST',
 		}
 	).then(
 		function( response ) {
@@ -39,13 +39,13 @@ function woostifyAjaxSingleUpdateFragments( button ) {
 		}
 	).then(
 		function( fr ) {
-			if ( 'undefined' === typeof( fr.fragments ) ) {
+			if ( 'undefined' === typeof ( fr.fragments ) ) {
 				return;
 			}
 
 			Object.entries( fr.fragments ).forEach(
-				function( [key, value] ) {
-					let newEl = document.querySelectorAll( key );
+				function( [ key, value ] ) {
+					const newEl = document.querySelectorAll( key );
 					if ( ! newEl.length ) {
 						return;
 					}
@@ -71,9 +71,8 @@ function woostifyAjaxSingleUpdateFragments( button ) {
 	);
 }
 
-
 function woostifyAjaxSingleAddToCartButton() {
-	var buttons = document.querySelectorAll( '.single_add_to_cart_button' );
+	const buttons = document.querySelectorAll( '.single_add_to_cart_button' );
 	if ( ! buttons.length ) {
 		return;
 	}
@@ -81,7 +80,7 @@ function woostifyAjaxSingleAddToCartButton() {
 	buttons.forEach(
 		function( ele ) {
 			ele.onclick = function( e ) {
-				var form = ele.closest( 'form.cart' );
+				const form = ele.closest( 'form.cart' );
 				if ( ! form || 'POST' !== form.method.toUpperCase() || ele.classList.contains( 'disabled' ) ) {
 					return;
 				}
@@ -93,26 +92,26 @@ function woostifyAjaxSingleAddToCartButton() {
 					input = form.querySelector( 'input[name="quantity"]' );
 				}
 
-				let inputValue = input ? Number( input.value.trim() ) : false;
+				const inputValue = input ? Number( input.value.trim() ) : false;
 
 				if ( ! inputValue || isNaN( inputValue ) || inputValue <= 0 ) {
 					alert( woostify_woocommerce_general.qty_warning );
 					return;
 				}
 
-				var form_data = new FormData( form )
-				form_data.append( 'add-to-cart', form.querySelector( '[name=add-to-cart]' ).value )
-				form_data.append( 'ajax_nonce', woostify_woocommerce_general.ajax_nonce )
+				const form_data = new FormData( form );
+				form_data.append( 'add-to-cart', form.querySelector( '[name=add-to-cart]' ).value );
+				form_data.append( 'ajax_nonce', woostify_woocommerce_general.ajax_nonce );
 
 				// Add loading.
 				ele.classList.add( 'loading' );
 
 				// Events.
-				if ( 'function' === typeof( eventCartSidebarOpen ) ) {
+				if ( 'function' === typeof ( eventCartSidebarOpen ) ) {
 					eventCartSidebarOpen();
 				}
 
-				if ( 'function' === typeof( closeAll ) ) {
+				if ( 'function' === typeof ( closeAll ) ) {
 					closeAll();
 				}
 
@@ -131,7 +130,7 @@ function woostifyAjaxSingleAddToCartButton() {
 							return;
 						}
 
-						var res_json = res.json();
+						const res_json = res.json();
 
 						if ( res_json.error && res_json.product_url ) {
 							window.location = res_json.product_url;
@@ -147,7 +146,7 @@ function woostifyAjaxSingleAddToCartButton() {
 						return res_json;
 					}
 				).then(
-					function ( result ) {
+					function( result ) {
 						// Add loading.
 						document.documentElement.classList.remove( 'mini-cart-updating' );
 
@@ -174,9 +173,9 @@ function woostifyAjaxSingleAddToCartButton() {
 						woostifyAjaxSingleHandleError( ele );
 					}
 				);
-			}
+			};
 		}
-	)
+	);
 }
 
 document.addEventListener(

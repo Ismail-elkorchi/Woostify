@@ -1,7 +1,7 @@
 /**
  * Product variation
  *
- * @package woostify
+ * @package
  */
 
 /* global woostify_woocommerce_variable_product_data */
@@ -11,30 +11,32 @@
 /**
  * Variation product
  *
- * @param      string selector  The selector.
- * @param      string form      The form.
+ * @param  string   selector  The selector.
+ * @param  string   form      The form.
+ * @param  selector
+ * @param  form
  */
 function productVariation( selector, form ) {
-	var gallery        = document.querySelector( selector ),
-		currProductID  = gallery.getAttribute( 'data-pid' ),
+	const gallery = document.querySelector( selector ),
+		currProductID = gallery.getAttribute( 'data-pid' ),
 		variationsForm = form ? form : 'form.variations_form[data-product_id="' + currProductID + '"]';
-		console.log(variationsForm);
+	console.log( variationsForm );
 	if ( ! gallery || ! jQuery( variationsForm ).length ) {
 		return;
 	}
 
-	var imageWrapper = gallery.querySelector( '.image-item' );
+	const imageWrapper = gallery.querySelector( '.image-item' );
 	if ( imageWrapper == null ) {
 		return;
 	}
-	var image       = imageWrapper ? imageWrapper.querySelector( 'img' ) : false,
-		imageSrc    = image ? image.getAttribute( 'src' ) : '',
+	const image = imageWrapper ? imageWrapper.querySelector( 'img' ) : false,
+		imageSrc = image ? image.getAttribute( 'src' ) : '',
 		imageSrcset = image ? image.getAttribute( 'srcset' ) : '',
 		// Photoswipe + zoom.
-		photoSwipe    = imageWrapper.querySelector( 'a' ),
+		photoSwipe = imageWrapper.querySelector( 'a' ),
 		photoSwipeSrc = photoSwipe ? photoSwipe.getAttribute( 'href' ) : '',
 		// Product thumbnail.
-		thumb    = gallery.querySelector( '.thumbnail-item' ),
+		thumb = gallery.querySelector( '.thumbnail-item' ),
 		thumbImg = thumb ? thumb.querySelector( 'img' ) : false,
 		thumbSrc = thumbImg ? thumbImg.getAttribute( 'src' ) : '';
 
@@ -47,7 +49,7 @@ function productVariation( selector, form ) {
 		variationsForm,
 		function( event, variation ) {
 			// get image url form `variation`.
-			var imgSrc  = variation.image.src,
+			const imgSrc = variation.image.src,
 				fullSrc = variation.image.full_src,
 				inStock = variation.is_in_stock;
 
@@ -69,10 +71,10 @@ function productVariation( selector, form ) {
 			if ( image && imgSrc ) {
 				imageWrapper.classList.add( 'image-loading' );
 
-				var img    = new Image();
-				img.onload = function () {
+				const img = new Image();
+				img.onload = function() {
 					imageWrapper.classList.remove( 'image-loading' );
-				}
+				};
 
 				img.src = imgSrc;
 				image.setAttribute( 'src', imgSrc );
@@ -88,19 +90,19 @@ function productVariation( selector, form ) {
 			}
 
 			// Re-init zoom handle.
-			if ( 'function' === typeof( easyZoomHandle ) ) {
+			if ( 'function' === typeof ( easyZoomHandle ) ) {
 				easyZoomHandle();
 			}
 
-			var jsSelector    = document.querySelector( selector ),
+			const jsSelector = document.querySelector( selector ),
 				productImages = jsSelector ? jsSelector.querySelector( '.product-images' ) : false,
 				outStockLabel = productImages ? productImages.querySelector( '.woostify-out-of-stock-label' ) : false,
-				onSaleLabel   = productImages ? productImages.querySelector( '.woostify-tag-on-sale' ) : false;
+				onSaleLabel = productImages ? productImages.querySelector( '.woostify-tag-on-sale' ) : false;
 
 			// In stock.
 			if ( inStock ) {
 				// Re-init stock progress bar.
-				if ( variation.max_qty && 'function' === typeof( woostifyStockQuantityProgressBar ) ) {
+				if ( variation.max_qty && 'function' === typeof ( woostifyStockQuantityProgressBar ) ) {
 					setTimeout(
 						function() {
 							woostifyStockQuantityProgressBar();
@@ -118,8 +120,8 @@ function productVariation( selector, form ) {
 				if ( onSaleLabel && woostify_woocommerce_variable_product_data.sale_tag_percent && variation.display_price != variation.display_regular_price ) {
 					onSaleLabel.innerHTML = '-' + Math.round( ( ( variation.display_regular_price - variation.display_price ) / variation.display_regular_price ) * 100 ) + '%';
 				}
-			} else if ( 'undefined' !== typeof( woostify_woocommerce_variable_product_data ) ) {
-				var outStockLabelHtml = '<span class="woostify-out-of-stock-label position-' + woostify_woocommerce_variable_product_data.out_of_stock_display + ' ' + woostify_woocommerce_variable_product_data.out_of_stock_square + '">' + woostify_woocommerce_variable_product_data.out_of_stock_text + '</span>';
+			} else if ( 'undefined' !== typeof ( woostify_woocommerce_variable_product_data ) ) {
+				const outStockLabelHtml = '<span class="woostify-out-of-stock-label position-' + woostify_woocommerce_variable_product_data.out_of_stock_display + ' ' + woostify_woocommerce_variable_product_data.out_of_stock_square + '">' + woostify_woocommerce_variable_product_data.out_of_stock_text + '</span>';
 
 				if ( ! outStockLabel ) {
 					productImages.insertAdjacentHTML( 'beforeend', outStockLabelHtml );
@@ -138,10 +140,10 @@ function productVariation( selector, form ) {
 			if ( image ) {
 				imageWrapper.classList.add( 'image-loading' );
 
-				var resetImg    = new Image();
-				resetImg.onload = function () {
+				const resetImg = new Image();
+				resetImg.onload = function() {
 					imageWrapper.classList.remove( 'image-loading' );
-				}
+				};
 
 				resetImg.src = imageSrc;
 				image.setAttribute( 'src', imageSrc );
@@ -161,7 +163,7 @@ function productVariation( selector, form ) {
 			}
 
 			// Zoom handle.
-			if ( 'function' === typeof( easyZoomHandle ) ) {
+			if ( 'function' === typeof ( easyZoomHandle ) ) {
 				easyZoomHandle();
 			}
 		}

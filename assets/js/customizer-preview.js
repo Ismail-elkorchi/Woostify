@@ -3,479 +3,485 @@
  *
  * Contains handlers to make Theme Customizer preview reload changes asynchronously.
  *
- * @package woostify
+ * @package
  */
 
-'use strict'
+'use strict';
 
 // Remove class with prefix.
-jQuery.fn.removeClassPrefix = function ( prefix ) {
+jQuery.fn.removeClassPrefix = function( prefix ) {
 	this.each(
-		function ( i, it ) {
-			var classes = it.className.split( ' ' ).map(
-				function ( item ) {
-					var j = 0 === item.indexOf( prefix ) ? '' : item
-					return j
+		function( i, it ) {
+			const classes = it.className.split( ' ' ).map(
+				function( item ) {
+					const j = 0 === item.indexOf( prefix ) ? '' : item;
+					return j;
 				},
-			)
+			);
 
-			it.className = jQuery.trim( classes.join( ' ' ) )
+			it.className = jQuery.trim( classes.join( ' ' ) );
 		},
-	)
+	);
 
-	return this
-}
+	return this;
+};
 
 // Colors.
 function woostify_colors_live_update( id, selector, property, fullId ) {
-	var setting = fullId ? id : 'woostify_setting[' + id + ']'
+	const setting = fullId ? id : 'woostify_setting[' + id + ']';
 
 	wp.customize(
 		setting,
-		function ( value ) {
+		function( value ) {
 			value.bind(
-				function ( newval ) {
+				function( newval ) {
 					if ( jQuery( 'style#' + id ).length ) {
-						jQuery( 'style#' + id ).html( selector + '{' + property + ':' + newval + ';}' )
+						jQuery( 'style#' + id ).html( selector + '{' + property + ':' + newval + ';}' );
 					} else {
-						jQuery( 'head' ).append( '<style id="' + id + '">' + selector + '{' + property + ':' + newval + '}</style>' )
+						jQuery( 'head' ).append( '<style id="' + id + '">' + selector + '{' + property + ':' + newval + '}</style>' );
 
 						setTimeout(
-							function () {
-								jQuery( 'style#' + id ).not( ':last' ).remove()
+							function() {
+								jQuery( 'style#' + id ).not( ':last' ).remove();
 							},
 							1000,
-						)
+						);
 					}
 				},
-			)
+			);
 		},
-	)
+	);
 }
 
 // Color Group 2.
 function woostify_color_group_live_update_2( id, selectors, properties, value_mask, fullid ) {
-	var setting = fullid ? id : 'woostify_setting[' + id + ']'
+	const setting = fullid ? id : 'woostify_setting[' + id + ']';
 	wp.customize(
 		setting,
-		function ( value ) {
+		function( value ) {
 			value.bind(
-				function ( newval ) {
-					var style = ''
+				function( newval ) {
+					let style = '';
 					selectors.forEach(
-						function ( selector, selector_idx ) {
-							style += selector + '{'
+						function( selector, selector_idx ) {
+							style += selector + '{';
 							if ( '' !== newval ) {
-								var newval_format = newval
-								if ( '' !== value_mask && 'undefined' !== typeof value_mask[selector_idx] && '' !== value_mask[selector_idx] ) {
-									newval_format = value_mask[selector_idx].replace( /{value}/g, newval )
+								let newval_format = newval;
+								if ( '' !== value_mask && 'undefined' !== typeof value_mask[ selector_idx ] && '' !== value_mask[ selector_idx ] ) {
+									newval_format = value_mask[ selector_idx ].replace( /{value}/g, newval );
 								}
-								style += properties[selector_idx] + ': ' + newval_format + ';'
+								style += properties[ selector_idx ] + ': ' + newval_format + ';';
 							}
-							style += '}'
+							style += '}';
 						},
-					)
+					);
 					// Append style.
 					if ( jQuery( 'style#woostify_setting-' + id ).length ) {
-						jQuery( 'style#woostify_setting-' + id ).html( style )
+						jQuery( 'style#woostify_setting-' + id ).html( style );
 					} else {
-						jQuery( 'head' ).append( '<style id="woostify_setting-' + id + '">' + style + '</style>' )
+						jQuery( 'head' ).append( '<style id="woostify_setting-' + id + '">' + style + '</style>' );
 
 						setTimeout(
-							function () {
-								jQuery( 'style#woostify_setting-' + id ).not( ':last' ).remove()
+							function() {
+								jQuery( 'style#woostify_setting-' + id ).not( ':last' ).remove();
 							},
 							100,
-						)
+						);
 					}
 				},
-			)
+			);
 		},
-	)
+	);
 }
 
 // Color Group.
 function woostify_color_group_live_update( ids, selectors, properties, value_mask ) {
 	ids.forEach(
-		function ( el, i ) {
-			var setting = 'woostify_setting[' + el + ']'
+		function( el, i ) {
+			const setting = 'woostify_setting[' + el + ']';
 			wp.customize(
 				setting,
-				function ( value ) {
+				function( value ) {
 					value.bind(
-						function ( newval ) {
-							var style = ''
-							style    += selectors[i] + '{'
+						function( newval ) {
+							let style = '';
+							style += selectors[ i ] + '{';
 							properties.forEach(
-								function ( property ) {
+								function( property ) {
 									if ( '' !== newval ) {
 										if ( value_mask ) {
-											newval = value_mask.replace( /{value}/g, newval )
+											newval = value_mask.replace( /{value}/g, newval );
 										}
-										style += property + ': ' + newval + ';'
+										style += property + ': ' + newval + ';';
 									}
 								},
-							)
-							style    += '}'
+							);
+							style += '}';
 
 							// Append style.
 							if ( jQuery( 'style#woostify_setting-' + el ).length ) {
-								jQuery( 'style#woostify_setting-' + el ).html( style )
+								jQuery( 'style#woostify_setting-' + el ).html( style );
 							} else {
-								jQuery( 'head' ).append( '<style id="woostify_setting-' + el + '">' + style + '</style>' )
+								jQuery( 'head' ).append( '<style id="woostify_setting-' + el + '">' + style + '</style>' );
 
 								setTimeout(
-									function () {
-										jQuery( 'style#woostify_setting-' + el ).not( ':last' ).remove()
+									function() {
+										jQuery( 'style#woostify_setting-' + el ).not( ':last' ).remove();
 									},
 									100,
-								)
+								);
 							}
 						},
-					)
+					);
 				},
-			)
+			);
 		},
-	)
+	);
 }
 
 function woostify_spacing_live_update( ids, selector, property, unit ) {
 	ids.forEach(
-		function ( el, i ) {
+		function( el, i ) {
 			wp.customize(
 				'woostify_setting[' + el + ']',
-				function ( value ) {
+				function( value ) {
 					value.bind(
-						function ( new_val ) {
-							var spacing_values = new_val.split( ' ' )
-							var styles         = ''
-							var newval         = ''
+						function( new_val ) {
+							const spacing_values = new_val.split( ' ' );
+							let styles = '';
+							let newval = '';
 
 							spacing_values.forEach(
-								function ( sel ) {
-									newval += sel + unit + ' '
+								function( sel ) {
+									newval += sel + unit + ' ';
 								},
-							)
+							);
 							if ( ids.length > 1 ) {
-								var media = ''
+								let media = '';
 								if ( 0 === i ) {
-									media = '( min-width: 769px )'
+									media = '( min-width: 769px )';
 								} else if ( 1 === i ) {
-									media = '( min-width: 321px ) and ( max-width: 768px )'
+									media = '( min-width: 321px ) and ( max-width: 768px )';
 								} else {
-									media = '( max-width: 320px )'
-
+									media = '( max-width: 320px )';
 								}
-								styles = '@media ' + media + ' {' + selector + ' {'
+								styles = '@media ' + media + ' {' + selector + ' {';
 								if ( Array.isArray( property ) ) {
-									var property_length = property.length
-									for ( var j = 0; j < property_length; j ++ ) {
-										styles += property[j] + ': ' + newval.trim() + ';'
+									const property_length = property.length;
+									for ( let j = 0; j < property_length; j++ ) {
+										styles += property[ j ] + ': ' + newval.trim() + ';';
 									}
 								} else {
-									styles += property + ': ' + newval.trim() + ';'
+									styles += property + ': ' + newval.trim() + ';';
 								}
-								styles += '}}'
+								styles += '}}';
 							} else {
-								styles = selector + ' { ' + property + ': ' + newval.trim() + ' }'
+								styles = selector + ' { ' + property + ': ' + newval.trim() + ' }';
 							}
 
 							// Append style.
 							if ( jQuery( 'style#woostify_setting-' + el ).length ) {
-								jQuery( 'style#woostify_setting-' + el ).html( styles )
+								jQuery( 'style#woostify_setting-' + el ).html( styles );
 							} else {
-								jQuery( 'head' ).append( '<style id="woostify_setting-' + el + '">' + styles + '</style>' )
+								jQuery( 'head' ).append( '<style id="woostify_setting-' + el + '">' + styles + '</style>' );
 
 								setTimeout(
-									function () {
-										jQuery( 'style#woostify_setting-' + el ).not( ':last' ).remove()
+									function() {
+										jQuery( 'style#woostify_setting-' + el ).not( ':last' ).remove();
 									},
 									100,
-								)
+								);
 							}
 						},
-					)
+					);
 				},
-			)
+			);
 		},
-	)
+	);
 }
 
 // Units.
 function woostify_unit_live_update( id, selector, property, unit, fullId ) {
-	var unit    = 'undefined' !== typeof (
+	var unit = 'undefined' !== typeof (
 			unit
 		) ? unit : 'px',
-		setting = fullId ? id : 'woostify_setting[' + id + ']'
+		setting = fullId ? id : 'woostify_setting[' + id + ']';
 
 	// Wordpress customize.
 	wp.customize(
 		setting,
-		function ( value ) {
+		function( value ) {
 			value.bind(
-				function ( newval ) {
+				function( newval ) {
 					// Sometime 'unit' is not use.
 					if ( ! unit ) {
-						unit = ''
+						unit = '';
 					}
 
 					// Get style.
-					var data = ''
+					let data = '';
 					if ( Array.isArray( property ) ) {
-						for ( var i = 0, j = property.length; i < j; i ++ ) {
-							data += newval ? selector + '{' + property[i] + ': ' + newval + unit + '}' : ''
+						for ( let i = 0, j = property.length; i < j; i++ ) {
+							data += newval ? selector + '{' + property[ i ] + ': ' + newval + unit + '}' : '';
 						}
 					} else {
-						data += newval ? selector + '{' + property + ': ' + newval + unit + '}' : ''
+						data += newval ? selector + '{' + property + ': ' + newval + unit + '}' : '';
 					}
 
 					// Append style.
 					if ( jQuery( 'style#' + id ).length ) {
-						jQuery( 'style#' + id ).html( data )
+						jQuery( 'style#' + id ).html( data );
 					} else {
-						jQuery( 'head' ).append( '<style id="' + id + '">' + data + '</style>' )
+						jQuery( 'head' ).append( '<style id="' + id + '">' + data + '</style>' );
 
 						setTimeout(
-							function () {
-								jQuery( 'style#' + id ).not( ':last' ).remove()
+							function() {
+								jQuery( 'style#' + id ).not( ':last' ).remove();
 							},
 							100,
-						)
+						);
 					}
 				},
-			)
+			);
 		},
-	)
+	);
 }
 
 // Html.
 function woostify_html_live_update( id, selector, fullId ) {
-	var setting = fullId ? id : 'woostify_setting[' + id + ']'
+	const setting = fullId ? id : 'woostify_setting[' + id + ']';
 
 	wp.customize(
 		setting,
-		function ( value ) {
+		function( value ) {
 			value.bind(
-				function ( newval ) {
-					var element = document.querySelectorAll( selector )
+				function( newval ) {
+					const element = document.querySelectorAll( selector );
 					if ( ! element.length ) {
-						return
+						return;
 					}
 
 					element.forEach(
-						function ( ele ) {
-							ele.innerHTML = newval
+						function( ele ) {
+							ele.innerHTML = newval;
 						},
-					)
+					);
 				},
-			)
+			);
 		},
-	)
+	);
 }
 
 // Hidden product meta.
 function woostify_hidden_product_meta( id, selector ) {
 	wp.customize(
 		'woostify_setting[' + id + ']',
-		function ( value ) {
+		function( value ) {
 			value.bind(
-				function ( newval ) {
+				function( newval ) {
 					if ( false === newval ) {
-						document.body.classList.add( selector )
+						document.body.classList.add( selector );
 					} else {
-						document.body.classList.remove( selector )
+						document.body.classList.remove( selector );
 					}
 				},
-			)
+			);
 		},
-	)
+	);
 }
 
 // Update element class.
 function woostify_update_element_class( id, selector, prefix, fullId ) {
-	var setting = fullId ? id : 'woostify_setting[' + id + ']'
+	const setting = fullId ? id : 'woostify_setting[' + id + ']';
 
 	wp.customize(
 		setting,
-		function ( value ) {
+		function( value ) {
 			value.bind(
-				function ( newval ) {
-					var newClass = ''
+				function( newval ) {
+					let newClass = '';
 					switch ( newval ) {
 						case true:
-							newClass = prefix
-							break
+							newClass = prefix;
+							break;
 						case false:
-							newClass = ''
-							break
+							newClass = '';
+							break;
 						default:
-							newClass = prefix + newval
-							break
+							newClass = prefix + newval;
+							break;
 					}
-					jQuery( selector ).removeClassPrefix( prefix ).addClass( newClass )
+					jQuery( selector ).removeClassPrefix( prefix ).addClass( newClass );
 				},
-			)
+			);
 		},
-	)
+	);
 }
 
 /**
  * Upload background image.
  *
- * @param      string  id  The setting id
- * @param      string  dependencies  The dependencies with background image.
- * Must follow: Size -> Repeat -> Position -> Attachment.
- * @param      string  selector      The css selector
+ * @param  string       id  The setting id
+ * @param  string       dependencies  The dependencies with background image.
+ *                      Must follow: Size -> Repeat -> Position -> Attachment.
+ * @param  string       selector      The css selector
+ * @param  id
+ * @param  dependencies
+ * @param  selector
  */
 function woostify_background_image_live_upload( id, dependencies, selector ) {
-	var dep     = (
-			arguments.length > 0 && undefined !== arguments[1]
-		) ? arguments[1] : false,
-		element = document.querySelector( selector )
+	const dep = (
+			arguments.length > 0 && undefined !== arguments[ 1 ]
+		) ? arguments[ 1 ] : false,
+		element = document.querySelector( selector );
 
 	if ( ! element ) {
-		return
+		return;
 	}
 
 	wp.customize(
 		'woostify_setting[' + id + ']',
-		function ( value ) {
+		function( value ) {
 			value.bind(
-				function ( newval ) {
+				function( newval ) {
 					if ( newval ) {
-						element.style.backgroundImage = 'url(' + newval + ')'
+						element.style.backgroundImage = 'url(' + newval + ')';
 					} else {
-						element.style.backgroundImage = 'none'
+						element.style.backgroundImage = 'none';
 					}
 				},
-			)
+			);
 		},
-	)
+	);
 
 	if ( dep ) {
 		dep.forEach(
-			function ( el, i ) {
+			function( el, i ) {
 				wp.customize(
 					'woostify_setting[' + el + ']',
-					function ( value ) {
+					function( value ) {
 						value.bind(
-							function ( newval ) {
+							function( newval ) {
 								switch ( i ) {
 									case 0:
 										// Set background size.
-										element.style.backgroundSize = newval
-										break
+										element.style.backgroundSize = newval;
+										break;
 									case 1:
 										// Set background repeat.
-										element.style.backgroundRepeat = newval
-										break
+										element.style.backgroundRepeat = newval;
+										break;
 									case 2:
 										// Set background position.
-										element.style.backgroundPosition = newval.replace( '-', ' ' )
-										break
+										element.style.backgroundPosition = newval.replace( '-', ' ' );
+										break;
 									default:
 										// Set background attachment.
-										element.style.backgroundAttachment = newval
-										break
+										element.style.backgroundAttachment = newval;
+										break;
 								}
 							},
-						)
+						);
 					},
-				)
+				);
 			},
-		)
+		);
 	}
 }
 
 /**
  * Multi device slider update
  *
- * @param      array   array     The Array of settings id. Follow Desktop -> Tablet -> Mobile
- * @param      string  selector  The selector: css selector
- * @param      string  property  The property: background-color, display...
- * @param      string  unit      The css unit: px, em, pt...
+ * @param  array    array     The Array of settings id. Follow Desktop -> Tablet -> Mobile
+ * @param  string   selector  The selector: css selector
+ * @param  string   property  The property: background-color, display...
+ * @param  string   unit      The css unit: px, em, pt...
+ * @param  arr
+ * @param  selector
+ * @param  property
+ * @param  unit
  */
 function woostify_range_slider_update( arr, selector, property, unit ) {
 	arr.forEach(
-		function ( el, i ) {
+		function( el, i ) {
 			wp.customize(
 				'woostify_setting[' + el + ']',
-				function ( value ) {
+				function( value ) {
 					value.bind(
-						function ( newval ) {
-							var styles = ''
+						function( newval ) {
+							let styles = '';
 							if ( arr.length > 1 ) {
-								var media = ''
+								let media = '';
 								if ( 0 === i ) {
-									media = '( min-width: 769px )'
+									media = '( min-width: 769px )';
 								} else if ( 1 === i ) {
-									media = '( min-width: 321px ) and ( max-width: 768px )'
+									media = '( min-width: 321px ) and ( max-width: 768px )';
 								} else {
-									media = '( max-width: 320px )'
-
+									media = '( max-width: 320px )';
 								}
-								styles = '@media ' + media + ' {' + selector + ' {'
+								styles = '@media ' + media + ' {' + selector + ' {';
 								if ( Array.isArray( property ) ) {
-									var property_length = property.length
-									for ( var j = 0; j < property_length; j ++ ) {
-										styles += property[j] + ': ' + newval + unit + ';'
+									const property_length = property.length;
+									for ( let j = 0; j < property_length; j++ ) {
+										styles += property[ j ] + ': ' + newval + unit + ';';
 									}
 								} else {
-									styles += property + ': ' + newval + unit + ';'
+									styles += property + ': ' + newval + unit + ';';
 								}
-								styles += '}}'
+								styles += '}}';
 							} else {
-								styles = selector + ' { ' + property + ': ' + newval + unit + ' }'
+								styles = selector + ' { ' + property + ': ' + newval + unit + ' }';
 							}
 
 							// Append style.
 							if ( jQuery( 'style#woostify_setting-' + el ).length ) {
-								jQuery( 'style#woostify_setting-' + el ).html( styles )
+								jQuery( 'style#woostify_setting-' + el ).html( styles );
 							} else {
-								jQuery( 'head' ).append( '<style id="woostify_setting-' + el + '">' + styles + '</style>' )
+								jQuery( 'head' ).append( '<style id="woostify_setting-' + el + '">' + styles + '</style>' );
 
 								setTimeout(
-									function () {
-										jQuery( 'style#woostify_setting-' + el ).not( ':last' ).remove()
+									function() {
+										jQuery( 'style#woostify_setting-' + el ).not( ':last' ).remove();
 									},
 									100,
-								)
+								);
 							}
 						},
-					)
+					);
 				},
-			)
+			);
 		},
-	)
+	);
 }
 
 /**
  * Dynamic Internal/Embedded Style for a Control
+ *
+ * @param  control
+ * @param  style
  */
 function woostify_add_dynamic_css( control, style ) {
-	control = control.replace( '[', '-' )
-	control = control.replace( ']', '' )
-	jQuery( 'style' + control ).remove()
+	control = control.replace( '[', '-' );
+	control = control.replace( ']', '' );
+	jQuery( 'style' + control ).remove();
 
 	jQuery( 'head' ).append(
 		'<style id="' + control + '">' + style + '</style>',
-	)
+	);
 }
 
 (
-	function ( $ ) {
+	function( $ ) {
 		/**
 		 * Primary Width Option
 		 */
 		wp.customize(
 			'woostify_setting[sidebar_width]',
-			function ( setting ) {
+			function( setting ) {
 				setting.bind(
-					function ( width ) {
-
+					function( width ) {
 						if ( ! jQuery( 'body' ).hasClass( 'site-full-width-container' ) ) {
-
-							var dynamicStyle = '@media (min-width: 992px) {'
+							let dynamicStyle = '@media (min-width: 992px) {';
 
 							dynamicStyle += '.has-sidebar.not(.offcanvas-sidebar) #primary { width: ' + (
 								100 - parseInt( width )
@@ -483,37 +489,37 @@ function woostify_add_dynamic_css( control, style ) {
 							dynamicStyle += '.has-sidebar.not(.offcanvas-sidebar) #secondary { width: ' + width + '% } ';
 							dynamicStyle += '}';
 
-							woostify_add_dynamic_css( 'sidebar_width', dynamicStyle )
+							woostify_add_dynamic_css( 'sidebar_width', dynamicStyle );
 						}
 					},
-				)
+				);
 			},
-		)
+		);
 	}
-)( jQuery )
+	( jQuery ) );
 
 document.addEventListener(
 	'DOMContentLoaded',
-	function () {
+	function() {
 		// Refresh Preview when remove Custom Logo.
 		wp.customize(
 			'custom_logo',
-			function ( value ) {
+			function( value ) {
 				value.bind(
-					function ( newval ) {
+					function( newval ) {
 						if ( ! newval ) {
-							wp.customize.preview.send( 'refresh' )
+							wp.customize.preview.send( 'refresh' );
 						}
 					},
-				)
+				);
 			},
-		)
+		);
 
 		// Update the site title in real time...
-		woostify_html_live_update( 'blogname', '.site-title.beta a', true )
+		woostify_html_live_update( 'blogname', '.site-title.beta a', true );
 
 		// Update the site description in real time...
-		woostify_html_live_update( 'blogdescription', '.site-description', true )
+		woostify_html_live_update( 'blogdescription', '.site-description', true );
 
 		// Global Colors.
 		woostify_color_group_live_update_2(
@@ -593,7 +599,7 @@ document.addEventListener(
 				'border-top-color',
 			],
 			'',
-		)
+		);
 
 		// Text Color.
 		woostify_color_group_live_update_2(
@@ -632,7 +638,7 @@ document.addEventListener(
 				'',
 				'1px solid {value}',
 			],
-		)
+		);
 
 		// Link / Accent Color.
 		woostify_color_group_live_update_2(
@@ -650,7 +656,7 @@ document.addEventListener(
 				'background-color',
 			],
 			'',
-		)
+		);
 
 		// Link Hover Color.
 		woostify_color_group_live_update_2(
@@ -668,23 +674,23 @@ document.addEventListener(
 				'background-color',
 			],
 			'',
-		)
+		);
 
 		// Topbar.
-		woostify_colors_live_update( 'topbar_text_color', '.topbar *', 'color' )
-		woostify_colors_live_update( 'topbar_background_color', '.topbar', 'background-color' )
-		woostify_range_slider_update( ['topbar_space'], '.topbar', 'padding', 'px 0' )
-		woostify_html_live_update( 'topbar_left', '.topbar .topbar-left' )
-		woostify_html_live_update( 'topbar_center', '.topbar .topbar-center' )
-		woostify_html_live_update( 'topbar_right', '.topbar .topbar-right' )
+		woostify_colors_live_update( 'topbar_text_color', '.topbar *', 'color' );
+		woostify_colors_live_update( 'topbar_background_color', '.topbar', 'background-color' );
+		woostify_range_slider_update( [ 'topbar_space' ], '.topbar', 'padding', 'px 0' );
+		woostify_html_live_update( 'topbar_left', '.topbar .topbar-left' );
+		woostify_html_live_update( 'topbar_center', '.topbar .topbar-center' );
+		woostify_html_live_update( 'topbar_right', '.topbar .topbar-right' );
 
 		// HEADER.
 		// Header background.
-		woostify_colors_live_update( 'header_background_color', '.site-header-inner, .has-header-layout-7 .sidebar-menu', 'background-color' )
+		woostify_colors_live_update( 'header_background_color', '.site-header-inner, .has-header-layout-7 .sidebar-menu', 'background-color' );
 		// Header transparent: border bottom width.
-		woostify_unit_live_update( 'header_transparent_border_width', '.has-header-transparent .site-header-inner', 'border-bottom-width' )
+		woostify_unit_live_update( 'header_transparent_border_width', '.has-header-transparent .site-header-inner', 'border-bottom-width' );
 		// Header transparent: border bottom color.
-		woostify_colors_live_update( 'header_transparent_border_color', '.has-header-transparent .site-header-inner', 'border-bottom-color' )
+		woostify_colors_live_update( 'header_transparent_border_color', '.has-header-transparent .site-header-inner', 'border-bottom-color' );
 
 		// Header menu transparent color.
 		woostify_color_group_live_update(
@@ -697,7 +703,7 @@ document.addEventListener(
 			[
 				'color',
 			],
-		)
+		);
 
 		// Header Icon transparent color.
 		woostify_color_group_live_update(
@@ -710,7 +716,7 @@ document.addEventListener(
 			[
 				'color',
 			],
-		)
+		);
 
 		// Header Icon transparent background.
 		woostify_color_group_live_update(
@@ -723,10 +729,10 @@ document.addEventListener(
 			[
 				'background-color',
 			],
-		)
+		);
 
 		// Header Hide zero value cart count.
-		woostify_update_element_class( 'header_shop_hide_zero_value_cart_count', '.shopping-bag-button .shop-cart-count', 'hide-zero-val' )
+		woostify_update_element_class( 'header_shop_hide_zero_value_cart_count', '.shopping-bag-button .shop-cart-count', 'hide-zero-val' );
 
 		// Header Hide zero value cart subtotal.
 		woostify_update_element_class( 'header_shop_hide_zero_value_cart_subtotal', '.woostify-header-total-price', 'hide-zero-val' );
@@ -741,23 +747,23 @@ document.addEventListener(
 			'.site-branding img',
 			'max-width',
 			'px',
-		)
+		);
 
 		// Header transparent enable on...
-		woostify_update_element_class( 'header_transparent_enable_on', 'body', 'header-transparent-for-' )
+		woostify_update_element_class( 'header_transparent_enable_on', 'body', 'header-transparent-for-' );
 
 		// PAGE HEADER.
 		// Text align.
-		woostify_update_element_class( 'page_header_text_align', '.page-header .woostify-container', 'content-align-' )
+		woostify_update_element_class( 'page_header_text_align', '.page-header .woostify-container', 'content-align-' );
 
 		// Title color.
-		woostify_colors_live_update( 'page_header_title_color', '.page-header .entry-title', 'color' )
+		woostify_colors_live_update( 'page_header_title_color', '.page-header .entry-title', 'color' );
 
 		// Breadcrumb text color.
-		woostify_colors_live_update( 'page_header_breadcrumb_text_color', '.woostify-breadcrumb, .woostify-breadcrumb a', 'color' )
+		woostify_colors_live_update( 'page_header_breadcrumb_text_color', '.woostify-breadcrumb, .woostify-breadcrumb a', 'color' );
 
 		// Background color.
-		woostify_colors_live_update( 'page_header_background_color', '.page-header', 'background-color' )
+		woostify_colors_live_update( 'page_header_background_color', '.page-header', 'background-color' );
 
 		// Background image.
 		woostify_background_image_live_upload(
@@ -769,76 +775,76 @@ document.addEventListener(
 				'page_header_background_image_attachment',
 			],
 			'.page-header',
-		)
+		);
 
 		// Padding top.
-		woostify_range_slider_update( ['page_header_padding_top'], '.page-header', 'padding-top', 'px' )
+		woostify_range_slider_update( [ 'page_header_padding_top' ], '.page-header', 'padding-top', 'px' );
 
 		// Padding bottom.
-		woostify_range_slider_update( ['page_header_padding_bottom'], '.page-header', 'padding-bottom', 'px' )
+		woostify_range_slider_update( [ 'page_header_padding_bottom' ], '.page-header', 'padding-bottom', 'px' );
 
 		// Margin bottom.
-		woostify_range_slider_update( ['page_header_margin_bottom'], '.page-header', 'margin-bottom', 'px' )
+		woostify_range_slider_update( [ 'page_header_margin_bottom' ], '.page-header', 'margin-bottom', 'px' );
 
 		// BODY.
 		// Body font size.
-		woostify_unit_live_update( 'body_font_size', 'body, button, input, select, textarea, .woocommerce-loop-product__title', 'font-size' )
+		woostify_unit_live_update( 'body_font_size', 'body, button, input, select, textarea, .woocommerce-loop-product__title', 'font-size' );
 
 		// Body line height.
-		woostify_unit_live_update( 'body_line_height', 'body', 'line-height' )
+		woostify_unit_live_update( 'body_line_height', 'body', 'line-height' );
 
 		// Body font weight.
-		woostify_unit_live_update( 'body_font_weight', 'body, button, input, select, textarea', 'font-weight', false )
+		woostify_unit_live_update( 'body_font_weight', 'body, button, input, select, textarea', 'font-weight', false );
 
 		// Body text transform.
-		woostify_unit_live_update( 'body_font_transform', 'body, button, input, select, textarea', 'text-transform', false )
+		woostify_unit_live_update( 'body_font_transform', 'body, button, input, select, textarea', 'text-transform', false );
 
 		// MENU.
 		// Menu font weight.
-		woostify_unit_live_update( 'menu_font_weight', '.primary-navigation a', 'font-weight', false )
+		woostify_unit_live_update( 'menu_font_weight', '.primary-navigation a', 'font-weight', false );
 
 		// Menu text transform.
-		woostify_unit_live_update( 'menu_font_transform', '.primary-navigation a', 'text-transform', false )
+		woostify_unit_live_update( 'menu_font_transform', '.primary-navigation a', 'text-transform', false );
 
 		// Parent menu font size.
-		woostify_unit_live_update( 'parent_menu_font_size', '.site-header .primary-navigation > li > a', 'font-size' )
+		woostify_unit_live_update( 'parent_menu_font_size', '.site-header .primary-navigation > li > a', 'font-size' );
 
 		// Parent menu line-height.
-		woostify_unit_live_update( 'parent_menu_line_height', '.site-header .primary-navigation > li > a', 'line-height' )
+		woostify_unit_live_update( 'parent_menu_line_height', '.site-header .primary-navigation > li > a', 'line-height' );
 
 		// Sub-menu font-size.
-		woostify_unit_live_update( 'sub_menu_font_size', '.site-header .primary-navigation .sub-menu a', 'font-size' )
+		woostify_unit_live_update( 'sub_menu_font_size', '.site-header .primary-navigation .sub-menu a', 'font-size' );
 
 		// Sub-menu line-height.
-		woostify_unit_live_update( 'sub_menu_line_height', '.site-header .primary-navigation .sub-menu a', 'line-height' )
+		woostify_unit_live_update( 'sub_menu_line_height', '.site-header .primary-navigation .sub-menu a', 'line-height' );
 
 		// HEADING.
 		// Heading line height.
-		woostify_unit_live_update( 'heading_line_height', 'h1, h2, h3, h4, h5, h6', 'line-height', false )
+		woostify_unit_live_update( 'heading_line_height', 'h1, h2, h3, h4, h5, h6', 'line-height', false );
 
 		// Heading font weight.
-		woostify_unit_live_update( 'heading_font_weight', 'h1, h2, h3, h4, h5, h6', 'font-weight', false )
+		woostify_unit_live_update( 'heading_font_weight', 'h1, h2, h3, h4, h5, h6', 'font-weight', false );
 
 		// Heading text transform.
-		woostify_unit_live_update( 'heading_font_transform', 'h1, h2, h3, h4, h5, h6', 'text-transform', false )
+		woostify_unit_live_update( 'heading_font_transform', 'h1, h2, h3, h4, h5, h6', 'text-transform', false );
 
 		// H1 font size.
-		woostify_unit_live_update( 'heading_h1_font_size', 'h1', 'font-size' )
+		woostify_unit_live_update( 'heading_h1_font_size', 'h1', 'font-size' );
 
 		// H2 font size.
-		woostify_unit_live_update( 'heading_h2_font_size', 'h2', 'font-size' )
+		woostify_unit_live_update( 'heading_h2_font_size', 'h2', 'font-size' );
 
 		// H3 font size.
-		woostify_unit_live_update( 'heading_h3_font_size', 'h3', 'font-size' )
+		woostify_unit_live_update( 'heading_h3_font_size', 'h3', 'font-size' );
 
 		// H4 font size.
-		woostify_unit_live_update( 'heading_h4_font_size', 'h4', 'font-size' )
+		woostify_unit_live_update( 'heading_h4_font_size', 'h4', 'font-size' );
 
 		// H5 font size.
-		woostify_unit_live_update( 'heading_h5_font_size', 'h5', 'font-size' )
+		woostify_unit_live_update( 'heading_h5_font_size', 'h5', 'font-size' );
 
 		// H6 font size.
-		woostify_unit_live_update( 'heading_h6_font_size', 'h6', 'font-size' )
+		woostify_unit_live_update( 'heading_h6_font_size', 'h6', 'font-size' );
 
 		// BUTTONS.
 		// Color.
@@ -850,7 +856,7 @@ document.addEventListener(
 			'buttons_border_radius',
 			'.cart .quantity, .button, .woocommerce-widget-layered-nav-dropdown__submit, .form-submit .submit, .has-woostify-contact-form input[type="submit"], #secondary .widget a.button, .product-loop-meta.no-transform .button, .loop-product-qty .quantity, .cart .quantity, .mini-cart-product-infor .mini-cart-quantity',
 			'border-radius',
-		)
+		);
 		woostify_color_group_live_update(
 			[
 				'button_text_color',
@@ -863,7 +869,7 @@ document.addEventListener(
 			[
 				'color',
 			],
-		)
+		);
 		woostify_color_group_live_update(
 			[
 				'button_background_color',
@@ -876,21 +882,21 @@ document.addEventListener(
 			[
 				'background',
 			],
-		)
+		);
 
 		// SHOP PAGE.
-		woostify_colors_live_update( 'shop_page_button_cart_background', '.product-loop-wrapper .button,.product-loop-meta.no-transform .button', 'background-color' )
-		woostify_colors_live_update( 'shop_page_button_cart_color', '.product-loop-wrapper .button,.product-loop-meta.no-transform .button', 'color' )
-		woostify_colors_live_update( 'shop_page_button_background_hover', '.product-loop-wrapper .button:hover,.product-loop-meta.no-transform .button:hover', 'background-color' )
-		woostify_colors_live_update( 'shop_page_button_color_hover', '.product-loop-wrapper .button:hover,.product-loop-meta.no-transform .button:hover', 'color' )
-		woostify_unit_live_update( 'shop_page_button_border_radius', '.product-loop-wrapper .button,.product-loop-meta.no-transform .button', 'border-radius' )
+		woostify_colors_live_update( 'shop_page_button_cart_background', '.product-loop-wrapper .button,.product-loop-meta.no-transform .button', 'background-color' );
+		woostify_colors_live_update( 'shop_page_button_cart_color', '.product-loop-wrapper .button,.product-loop-meta.no-transform .button', 'color' );
+		woostify_colors_live_update( 'shop_page_button_background_hover', '.product-loop-wrapper .button:hover,.product-loop-meta.no-transform .button:hover', 'background-color' );
+		woostify_colors_live_update( 'shop_page_button_color_hover', '.product-loop-wrapper .button:hover,.product-loop-meta.no-transform .button:hover', 'color' );
+		woostify_unit_live_update( 'shop_page_button_border_radius', '.product-loop-wrapper .button,.product-loop-meta.no-transform .button', 'border-radius' );
 		// Sale tag.
-		woostify_update_element_class( 'shop_page_sale_tag_position', '.woostify-tag-on-sale', 'sale-' )
-		woostify_html_live_update( 'shop_page_sale_text', '.woostify-tag-on-sale' )
-		woostify_colors_live_update( 'shop_page_sale_color', '.woostify-tag-on-sale', 'color' )
-		woostify_colors_live_update( 'shop_page_sale_bg_color', '.woostify-tag-on-sale', 'background-color' )
-		woostify_unit_live_update( 'shop_page_sale_border_radius', '.woostify-tag-on-sale', 'border-radius' )
-		woostify_update_element_class( 'shop_page_sale_square', '.woostify-tag-on-sale', 'is-square' )
+		woostify_update_element_class( 'shop_page_sale_tag_position', '.woostify-tag-on-sale', 'sale-' );
+		woostify_html_live_update( 'shop_page_sale_text', '.woostify-tag-on-sale' );
+		woostify_colors_live_update( 'shop_page_sale_color', '.woostify-tag-on-sale', 'color' );
+		woostify_colors_live_update( 'shop_page_sale_bg_color', '.woostify-tag-on-sale', 'background-color' );
+		woostify_unit_live_update( 'shop_page_sale_border_radius', '.woostify-tag-on-sale', 'border-radius' );
+		woostify_update_element_class( 'shop_page_sale_square', '.woostify-tag-on-sale', 'is-square' );
 		woostify_unit_live_update(
 			'shop_page_sale_size',
 			'.woostify-tag-on-sale.is-square',
@@ -898,15 +904,15 @@ document.addEventListener(
 				'width',
 				'height',
 			],
-		)
+		);
 
 		// Out of stock label.
-		woostify_update_element_class( 'shop_page_out_of_stock_position', '.woostify-out-of-stock-label', 'position-' )
-		woostify_html_live_update( 'shop_page_out_of_stock_text', '.woostify-out-of-stock-label' )
-		woostify_colors_live_update( 'shop_page_out_of_stock_color', '.woostify-out-of-stock-label', 'color' )
-		woostify_colors_live_update( 'shop_page_out_of_stock_bg_color', '.woostify-out-of-stock-label', 'background-color' )
-		woostify_unit_live_update( 'shop_page_out_of_stock_border_radius', '.woostify-out-of-stock-label', 'border-radius' )
-		woostify_update_element_class( 'shop_page_out_of_stock_square', '.woostify-out-of-stock-label', 'is-square' )
+		woostify_update_element_class( 'shop_page_out_of_stock_position', '.woostify-out-of-stock-label', 'position-' );
+		woostify_html_live_update( 'shop_page_out_of_stock_text', '.woostify-out-of-stock-label' );
+		woostify_colors_live_update( 'shop_page_out_of_stock_color', '.woostify-out-of-stock-label', 'color' );
+		woostify_colors_live_update( 'shop_page_out_of_stock_bg_color', '.woostify-out-of-stock-label', 'background-color' );
+		woostify_unit_live_update( 'shop_page_out_of_stock_border_radius', '.woostify-out-of-stock-label', 'border-radius' );
+		woostify_update_element_class( 'shop_page_out_of_stock_square', '.woostify-out-of-stock-label', 'is-square' );
 		woostify_unit_live_update(
 			'shop_page_out_of_stock_size',
 			'.woostify-out-of-stock-label.is-square',
@@ -914,21 +920,21 @@ document.addEventListener(
 				'width',
 				'height',
 			],
-		)
+		);
 
 		// SHOP SINGLE.
 		// Single Product Add To Cart.
-		woostify_colors_live_update( 'shop_single_button_cart_background', '.single_add_to_cart_button.button:not(.woostify-buy-now)', 'background-color' )
-		woostify_colors_live_update( 'shop_single_button_cart_color', '.single_add_to_cart_button.button:not(.woostify-buy-now)', 'color' )
-		woostify_colors_live_update( 'shop_single_button_background_hover', '.single_add_to_cart_button.button:not(.woostify-buy-now):hover', 'background-color' )
-		woostify_colors_live_update( 'shop_single_button_color_hover', '.single_add_to_cart_button.button:not(.woostify-buy-now):hover', 'color' )
+		woostify_colors_live_update( 'shop_single_button_cart_background', '.single_add_to_cart_button.button:not(.woostify-buy-now)', 'background-color' );
+		woostify_colors_live_update( 'shop_single_button_cart_color', '.single_add_to_cart_button.button:not(.woostify-buy-now)', 'color' );
+		woostify_colors_live_update( 'shop_single_button_background_hover', '.single_add_to_cart_button.button:not(.woostify-buy-now):hover', 'background-color' );
+		woostify_colors_live_update( 'shop_single_button_color_hover', '.single_add_to_cart_button.button:not(.woostify-buy-now):hover', 'color' );
 		// Hidden product meta.
-		woostify_hidden_product_meta( 'shop_single_skus', 'hid-skus' )
-		woostify_hidden_product_meta( 'shop_single_categories', 'hid-categories' )
-		woostify_hidden_product_meta( 'shop_single_tags', 'hid-tags' )
+		woostify_hidden_product_meta( 'shop_single_skus', 'hid-skus' );
+		woostify_hidden_product_meta( 'shop_single_categories', 'hid-categories' );
+		woostify_hidden_product_meta( 'shop_single_tags', 'hid-tags' );
 
 		// Footer.
-		woostify_range_slider_update( ['footer_space'], '.site-footer', 'margin-top', 'px' )
+		woostify_range_slider_update( [ 'footer_space' ], '.site-footer', 'margin-top', 'px' );
 
 		woostify_colors_live_update( 'footer_background_color', '.site-footer', 'background-color' );
 
@@ -946,20 +952,20 @@ document.addEventListener(
 				'border-color',
 			],
 			'',
-		)
+		);
 
 		woostify_colors_live_update( 'footer_link_color', '.site-footer a', 'color' );
 
 		woostify_colors_live_update( 'footer_text_color', '.site-footer', 'color' );
 		// Scroll To Top.
-		woostify_colors_live_update( 'scroll_to_top_background', '#scroll-to-top', 'background-color' )
-		woostify_colors_live_update( 'scroll_to_top_color', '#scroll-to-top', 'color' )
-		woostify_range_slider_update( ['scroll_to_top_border_radius'], '#scroll-to-top', 'border-radius', 'px' )
-		woostify_range_slider_update( ['scroll_to_top_icon_size'], '#scroll-to-top:before', 'font-size', 'px' )
-		woostify_range_slider_update( ['scroll_to_top_offset_bottom'], '#scroll-to-top', 'bottom', 'px' )
-		woostify_range_slider_update( ['shop_single_button_border_radius'], '.single_add_to_cart_button.button:not(.woostify-buy-now)', 'border-radius', 'px' )
-		woostify_update_element_class( 'scroll_to_top_position', '#scroll-to-top', 'scroll-to-top-position-' )
-		woostify_update_element_class( 'scroll_to_top_on', '#scroll-to-top', 'scroll-to-top-show-' )
+		woostify_colors_live_update( 'scroll_to_top_background', '#scroll-to-top', 'background-color' );
+		woostify_colors_live_update( 'scroll_to_top_color', '#scroll-to-top', 'color' );
+		woostify_range_slider_update( [ 'scroll_to_top_border_radius' ], '#scroll-to-top', 'border-radius', 'px' );
+		woostify_range_slider_update( [ 'scroll_to_top_icon_size' ], '#scroll-to-top:before', 'font-size', 'px' );
+		woostify_range_slider_update( [ 'scroll_to_top_offset_bottom' ], '#scroll-to-top', 'bottom', 'px' );
+		woostify_range_slider_update( [ 'shop_single_button_border_radius' ], '.single_add_to_cart_button.button:not(.woostify-buy-now)', 'border-radius', 'px' );
+		woostify_update_element_class( 'scroll_to_top_position', '#scroll-to-top', 'scroll-to-top-position-' );
+		woostify_update_element_class( 'scroll_to_top_on', '#scroll-to-top', 'scroll-to-top-show-' );
 
 		// Sticky Footer Bar.
 		woostify_update_element_class( 'sticky_footer_bar_enable_on', '.woostify-sticky-footer-bar', 'woostify-sticky-on-' );
@@ -982,7 +988,7 @@ document.addEventListener(
 				'height',
 			],
 			'px',
-		)
+		);
 		woostify_range_slider_update(
 			[
 				'sticky_footer_bar_icon_spacing',
@@ -994,7 +1000,7 @@ document.addEventListener(
 				'margin-bottom',
 			],
 			'px',
-		)
+		);
 		woostify_range_slider_update(
 			[
 				'sticky_footer_bar_text_font_size',
@@ -1006,8 +1012,8 @@ document.addEventListener(
 				'font-size',
 			],
 			'px',
-		)
-		woostify_unit_live_update( 'sticky_footer_bar_text_font_weight', '.woostify-sticky-footer-bar .woostify-item-list-item__name', 'font-weight', false )
+		);
+		woostify_unit_live_update( 'sticky_footer_bar_text_font_weight', '.woostify-sticky-footer-bar .woostify-item-list-item__name', 'font-weight', false );
 		woostify_spacing_live_update(
 			[
 				'sticky_footer_bar_padding',
@@ -1017,7 +1023,7 @@ document.addEventListener(
 			'.woostify-sticky-footer-bar',
 			'padding',
 			'px',
-		)
+		);
 
 		// Sticky Footer Bar: Background.
 		woostify_color_group_live_update(
@@ -1030,7 +1036,7 @@ document.addEventListener(
 			[
 				'background',
 			],
-		)
+		);
 		// Sticky Footer Bar: Icon color.
 		woostify_color_group_live_update(
 			[
@@ -1045,16 +1051,16 @@ document.addEventListener(
 				'color',
 				'fill',
 			],
-		)
+		);
 
 		// MINI CART.
 		woostify_colors_live_update( 'mini_cart_background_color', '#shop-cart-sidebar', 'background-color' );
 
 		// MOBILE MENU.
 		// Hide search box.
-		woostify_update_element_class( 'mobile_menu_hide_search_field', '.sidebar-menu .site-search', 'hide' )
+		woostify_update_element_class( 'mobile_menu_hide_search_field', '.sidebar-menu .site-search', 'hide' );
 		// Hide login/register link.
-		woostify_update_element_class( 'mobile_menu_hide_login', '.sidebar-menu .sidebar-menu-bottom', 'hide' )
+		woostify_update_element_class( 'mobile_menu_hide_login', '.sidebar-menu .sidebar-menu-bottom', 'hide' );
 		// Icon Bar Color.
 		woostify_colors_live_update( 'mobile_menu_icon_bar_color', '.toggle-sidebar-menu-btn.woostify-icon-bar span', 'background-color' );
 		// Background.
@@ -1073,7 +1079,7 @@ document.addEventListener(
 				'color',
 				'color',
 			],
-		)
+		);
 		// Tab background.
 		woostify_color_group_live_update(
 			[
@@ -1088,7 +1094,7 @@ document.addEventListener(
 				'background',
 				'background',
 			],
-		)
+		);
 		// Tab color.
 		woostify_color_group_live_update(
 			[
@@ -1103,7 +1109,7 @@ document.addEventListener(
 				'color',
 				'color',
 			],
-		)
+		);
 		// Tab padding.
 		woostify_spacing_live_update(
 			[
@@ -1112,7 +1118,7 @@ document.addEventListener(
 			'.sidebar-menu .mobile-tab-title, .woostify-nav-menu-inner .mobile-tab-title',
 			'padding',
 			'px',
-		)
+		);
 		// Nav tab spacing bottom.
 		woostify_spacing_live_update(
 			[
@@ -1121,7 +1127,7 @@ document.addEventListener(
 			'.sidebar-menu .mobile-nav-tab, .woostify-nav-menu-inner .mobile-nav-tab',
 			'margin-bottom',
 			'px',
-		)
+		);
 
 		// Blog title slider.
 		woostify_range_slider_update(
@@ -1133,7 +1139,7 @@ document.addEventListener(
 			'.blog .post-loop .entry-title',
 			'font-size',
 			'px',
-		)
+		);
 
 		// Blog meta slider.
 		woostify_range_slider_update(
@@ -1145,7 +1151,7 @@ document.addEventListener(
 			'.blog .post-loop .post-meta-item a,.blog .post-loop .post-meta-item',
 			'font-size',
 			'px',
-		)
+		);
 
 		// Blog description slider.
 		woostify_range_slider_update(
@@ -1157,7 +1163,7 @@ document.addEventListener(
 			'.blog .post-loop .summary-text',
 			'font-size',
 			'px',
-		)
+		);
 
 		woostify_color_group_live_update(
 			[
@@ -1169,10 +1175,10 @@ document.addEventListener(
 			[
 				'color',
 			],
-		)
+		);
 		woostify_color_group_live_update(
 			[
-				'blog_metadata_color'
+				'blog_metadata_color',
 			],
 			[
 				'.blog .post-loop .post-meta-item a',
@@ -1180,10 +1186,10 @@ document.addEventListener(
 			[
 				'color',
 			],
-		)
+		);
 		woostify_color_group_live_update(
 			[
-				'blog_description_color'
+				'blog_description_color',
 			],
 			[
 				'.blog .post-loop .summary-text',
@@ -1191,7 +1197,7 @@ document.addEventListener(
 			[
 				'color',
 			],
-		)
+		);
 
 		// Shop title slider.
 		woostify_range_slider_update(
@@ -1203,7 +1209,7 @@ document.addEventListener(
 			'.woocommerce .product .product-loop-meta .price .woocommerce-Price-amount',
 			'font-size',
 			'px',
-		)
+		);
 
 		// Shop price slider.
 		woostify_range_slider_update(
@@ -1215,11 +1221,11 @@ document.addEventListener(
 			'.woocommerce .product .woocommerce-loop-product__title',
 			'font-size',
 			'px',
-		)
+		);
 
 		woostify_color_group_live_update(
 			[
-				'shop_page_product_title_color'
+				'shop_page_product_title_color',
 			],
 			[
 				'.woocommerce .product .woocommerce-loop-product__title',
@@ -1227,18 +1233,18 @@ document.addEventListener(
 			[
 				'color',
 			],
-		)
+		);
 		woostify_color_group_live_update(
 			[
-				'shop_page_product_price_color'
+				'shop_page_product_price_color',
 			],
 			[
 				'.woocommerce .product .product-loop-meta .price .woocommerce-Price-amount',
-				'.woocommerce .product .product-loop-meta .price del'
+				'.woocommerce .product .product-loop-meta .price del',
 			],
 			[
 				'color',
 			],
-		)
+		);
 	},
-)
+);

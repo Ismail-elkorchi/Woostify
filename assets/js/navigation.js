@@ -1,14 +1,14 @@
 /**
  * Navigation.js
  *
- * @package woostify
+ * @package
  */
 
 'use strict';
 
 // Mobile menu tab.
 function mobileMenuTab() {
-	var mobileTabsWrapperEls = document.querySelectorAll( 'ul.mobile-nav-tab' );
+	const mobileTabsWrapperEls = document.querySelectorAll( 'ul.mobile-nav-tab' );
 
 	if ( ! mobileTabsWrapperEls.length ) {
 		return;
@@ -16,9 +16,9 @@ function mobileMenuTab() {
 
 	mobileTabsWrapperEls.forEach(
 		function( mobileTabsWrapperEl ) {
-			var sidebarWrapper = mobileTabsWrapperEl.parentNode;
-			var tabs           = mobileTabsWrapperEl.querySelectorAll( '.mobile-tab-title' );
-			var menus;
+			const sidebarWrapper = mobileTabsWrapperEl.parentNode;
+			const tabs = mobileTabsWrapperEl.querySelectorAll( '.mobile-tab-title' );
+			let menus;
 
 			if ( sidebarWrapper.classList.contains( 'sidebar-menu' ) ) {
 				menus = sidebarWrapper.querySelectorAll( '.site-navigation nav' );
@@ -31,7 +31,7 @@ function mobileMenuTab() {
 				return;
 			}
 
-			menus[0].classList.add( 'active' );
+			menus[ 0 ].classList.add( 'active' );
 
 			tabs.forEach(
 				function( tab, tabIndex ) {
@@ -40,8 +40,8 @@ function mobileMenuTab() {
 							return;
 						}
 
-						for ( var i = 0, j = tabs.length; i < j; i++ ) {
-							tabs[i].classList.remove( 'active' );
+						for ( let i = 0, j = tabs.length; i < j; i++ ) {
+							tabs[ i ].classList.remove( 'active' );
 						}
 						tab.classList.add( 'active' );
 
@@ -53,24 +53,24 @@ function mobileMenuTab() {
 									menu.classList.remove( 'active' );
 								}
 							}
-						)
-					}
+						);
+					};
 				}
-			)
+			);
 		}
-	)
+	);
 }
 
 // Open Menu mobile.
 function nav() {
-	var menuToggleBtn = document.getElementsByClassName( 'toggle-sidebar-menu-btn' );
+	const menuToggleBtn = document.getElementsByClassName( 'toggle-sidebar-menu-btn' );
 
 	if ( ! menuToggleBtn.length ) {
 		return;
 	}
 
-	for ( var i = 0, j = menuToggleBtn.length; i < j; i++ ) {
-		menuToggleBtn[i].addEventListener(
+	for ( let i = 0, j = menuToggleBtn.length; i < j; i++ ) {
+		menuToggleBtn[ i ].addEventListener(
 			'click',
 			function() {
 				document.documentElement.classList.add( 'sidebar-menu-open' );
@@ -82,18 +82,18 @@ function nav() {
 
 // Accordion menu on sidebar.
 function sidebarMenu( node ) {
-	var selector = ( arguments.length > 0 && undefined !== arguments[0] ) ? jQuery( node ) : jQuery( '.sidebar-menu .primary-navigation' ),
-		arrow    = selector.find( '.arrow-icon' );
+	const selector = ( arguments.length > 0 && undefined !== arguments[ 0 ] ) ? jQuery( node ) : jQuery( '.sidebar-menu .primary-navigation' ),
+		arrow = selector.find( '.arrow-icon' );
 
 	jQuery( arrow ).on(
 		'click',
 		function( e ) {
 			e.preventDefault();
 
-			var t        = jQuery( this ),
+			const t = jQuery( this ),
 				siblings = t.parent().siblings( 'ul' ),
-				arrow    = t.parent().parent().parent().find( '.arrow-icon' ),
-				subMenu  = t.parent().parent().parent().find( 'li .sub-menu' );
+				arrow = t.parent().parent().parent().find( '.arrow-icon' ),
+				subMenu = t.parent().parent().parent().find( 'li .sub-menu' );
 
 			if ( siblings.hasClass( 'show' ) ) {
 				siblings.slideUp(
@@ -133,7 +133,7 @@ function navFallback() {
 		return;
 	}
 
-	var userArgent = navigator.userAgent;
+	const userArgent = navigator.userAgent;
 
 	if ( userArgent && ( userArgent.includes( 'Android' ) || userArgent.includes( 'Mobile' ) ) ) {
 		return;

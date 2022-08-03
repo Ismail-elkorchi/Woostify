@@ -1,34 +1,33 @@
 /**
  * General js
  *
- * @package woostify
+ * @package
  */
 
 'use strict';
 
-Number.prototype.countDecimals = function () {
-
+Number.prototype.countDecimals = function() {
 	if ( Math.floor( this.valueOf() ) === this.valueOf() ) {
 		return 0;
 	}
 
-	var str = this.toString();
-	if ( str.indexOf( "." ) !== -1 && str.indexOf( "-" ) !== -1 ) {
-		return str.split( "-" )[1] || 0;
-	} else if ( str.indexOf( "." ) !== -1 ) {
-		return str.split( "." )[1].length || 0;
+	const str = this.toString();
+	if ( str.indexOf( '.' ) !== -1 && str.indexOf( '-' ) !== -1 ) {
+		return str.split( '-' )[ 1 ] || 0;
+	} else if ( str.indexOf( '.' ) !== -1 ) {
+		return str.split( '.' )[ 1 ].length || 0;
 	}
-	return str.split( "-" )[1] || 0;
-}
+	return str.split( '-' )[ 1 ] || 0;
+};
 
 function get_svg_icon( icon ) {
-	var output    = '';
-	var icon_list = JSON.parse( woostify_svg_icons.list );
+	let output = '';
+	const icon_list = JSON.parse( woostify_svg_icons.list );
 
 	output += '<span class="woostify-svg-icon">';
 
 	if ( icon_list.hasOwnProperty( icon ) ) {
-		output += icon_list[icon];
+		output += icon_list[ icon ];
 	} else {
 		output += '';
 	}
@@ -51,7 +50,7 @@ function closeAll() {
 	);
 
 	// Use `X` close button.
-	var closeCartSidebarBtn = document.getElementById( 'close-cart-sidebar-btn' );
+	const closeCartSidebarBtn = document.getElementById( 'close-cart-sidebar-btn' );
 
 	if ( closeCartSidebarBtn ) {
 		closeCartSidebarBtn.addEventListener(
@@ -63,7 +62,7 @@ function closeAll() {
 	}
 
 	// Use overlay.
-	var overlay = document.getElementById( 'woostify-overlay' );
+	const overlay = document.getElementById( 'woostify-overlay' );
 
 	if ( overlay ) {
 		overlay.addEventListener(
@@ -77,10 +76,10 @@ function closeAll() {
 
 // Dialog Popup.
 function dialogPopup( targetClickClass, popupTarget, type ) {
-	var targetClickEl = document.getElementsByClassName( targetClickClass ),
-		popupEl       = document.querySelector( popupTarget ),
+	let targetClickEl = document.getElementsByClassName( targetClickClass ),
+		popupEl = document.querySelector( popupTarget ),
 		popupCloseBtn = document.querySelector( popupTarget + ' .dialog-' + type + '-close-icon' ),
-		searchField,popupInnerEl,popupContentEl;
+		searchField, popupInnerEl, popupContentEl;
 
 	if ( 'search' === type ) {
 		searchField = document.querySelector( popupTarget + ' .search-field' );
@@ -102,11 +101,11 @@ function dialogPopup( targetClickClass, popupTarget, type ) {
 	}
 
 	if ( 'account' === type ) {
-		popupInnerEl   = popupEl.querySelector( '.dialog-popup-inner' );
+		popupInnerEl = popupEl.querySelector( '.dialog-popup-inner' );
 		popupContentEl = popupEl.querySelector( '.dialog-popup-content' );
 	}
 
-	var popupOpen = function() {
+	const popupOpen = function() {
 		document.documentElement.classList.add( 'dialog-' + type + '-open' );
 		document.documentElement.classList.remove( 'dialog-' + type + '-close' );
 		if ( 'search' === type && searchField ) {
@@ -114,20 +113,20 @@ function dialogPopup( targetClickClass, popupTarget, type ) {
 				searchField.focus();
 			}
 		}
-	}
+	};
 
-	var popupClose = function() {
+	const popupClose = function() {
 		document.documentElement.classList.add( 'dialog-' + type + '-close' );
 		document.documentElement.classList.remove( 'dialog-' + type + '-open' );
-	}
+	};
 
-	for ( var i = 0, j = targetClickEl.length; i < j; i++ ) {
+	for ( let i = 0, j = targetClickEl.length; i < j; i++ ) {
 		if ( 'account' === type ) {
-			if ( ! targetClickEl[i].classList.contains( 'open-popup' ) ) {
+			if ( ! targetClickEl[ i ].classList.contains( 'open-popup' ) ) {
 				return;
 			}
 		}
-		targetClickEl[i].addEventListener(
+		targetClickEl[ i ].addEventListener(
 			'click',
 			function( e ) {
 				e.preventDefault();
@@ -195,20 +194,20 @@ function dialogPopup( targetClickClass, popupTarget, type ) {
 
 // Scroll action.
 function scrollAction( selector, position ) {
-	var scroll = function() {
-		var item = document.querySelector( selector );
+	const scroll = function() {
+		const item = document.querySelector( selector );
 		if ( ! item ) {
 			return;
 		}
 
-		var pos = arguments.length > 0 && undefined !== arguments[0] ? arguments[0] : window.scrollY;
+		const pos = arguments.length > 0 && undefined !== arguments[ 0 ] ? arguments[ 0 ] : window.scrollY;
 
 		if ( pos > position ) {
 			item.classList.add( 'active' );
 		} else {
 			item.classList.remove( 'active' );
 		}
-	}
+	};
 
 	window.addEventListener(
 		'load',
@@ -227,15 +226,15 @@ function scrollAction( selector, position ) {
 
 // Go to top button.
 function toTopButton() {
-	var top               = jQuery( '#scroll-to-top' );
-	var sticky_footer_bar = jQuery( '.woostify-sticky-footer-bar' );
+	const top = jQuery( '#scroll-to-top' );
+	const sticky_footer_bar = jQuery( '.woostify-sticky-footer-bar' );
 	if ( ! top.length ) {
 		return;
 	}
 
 	if ( sticky_footer_bar.length ) {
-		var bar_height = sticky_footer_bar.outerHeight()
-		top.css( 'bottom', (bar_height + 10) + 'px' )
+		const bar_height = sticky_footer_bar.outerHeight();
+		top.css( 'bottom', ( bar_height + 10 ) + 'px' );
 	}
 
 	top.on(
@@ -248,7 +247,7 @@ function toTopButton() {
 
 // Scrolling detect direction.
 function scrollingDetect() {
-	var body = document.body;
+	const body = document.body;
 
 	if ( window.oldScroll > window.scrollY ) {
 		body.classList.add( 'scrolling-up' );
@@ -264,8 +263,8 @@ function scrollingDetect() {
 
 // Get all Prev element siblings.
 function prevSiblings( target ) {
-	var siblings = [],
-		n        = target;
+	let siblings = [],
+		n = target;
 
 	if ( n && n.previousElementSibling ) {
 		while ( n = n.previousElementSibling ) {
@@ -278,8 +277,8 @@ function prevSiblings( target ) {
 
 // Get all Next element siblings.
 function nextSiblings( target ) {
-	var siblings = [],
-		n        = target;
+	let siblings = [],
+		n = target;
 
 	if ( n && n.nextElementSibling ) {
 		while ( n = n.nextElementSibling ) {
@@ -292,7 +291,7 @@ function nextSiblings( target ) {
 
 // Get all element siblings.
 function siblings( target ) {
-	var prev = prevSiblings( target ) || [],
+	const prev = prevSiblings( target ) || [],
 		next = nextSiblings( target ) || [];
 
 	return prev.concat( next );
@@ -300,20 +299,20 @@ function siblings( target ) {
 
 // Remove class with prefix.
 function woostifyRemoveClassPrefix() {
-	var selector = ( arguments.length > 0 && undefined !== arguments[0] ) ? arguments[0] : false,
-		prefix   = ( arguments.length > 0 && undefined !== arguments[1] ) ? arguments[1] : false;
+	const selector = ( arguments.length > 0 && undefined !== arguments[ 0 ] ) ? arguments[ 0 ] : false,
+		prefix = ( arguments.length > 0 && undefined !== arguments[ 1 ] ) ? arguments[ 1 ] : false;
 
 	if ( ! selector || ! prefix ) {
 		return false;
 	}
 
-	var _classList = Array.from( selector.classList );
+	const _classList = Array.from( selector.classList );
 
 	if ( ! _classList.length ) {
 		return false;
 	}
 
-	var results = _classList.filter(
+	const results = _classList.filter(
 		function( item ) {
 			return ! item.includes( prefix );
 		}
