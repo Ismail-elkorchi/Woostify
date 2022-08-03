@@ -1,9 +1,12 @@
 {
   "devDependencies": {
-    "@wordpress/eslint-plugin": "^12.8.0"
+    "@wordpress/eslint-plugin": "^12.8.0",
+    "@wordpress/stylelint-config": "^20.0.2"
   },
   "scripts": {
     "lint:js": "eslint 'assets/js/*.js' 'assets/js/woocommerce/*.js'",
-    "fix:js": "eslint 'assets/js/*.js' 'assets/js/woocommerce/*.js' --fix"
+    "fix:js": "eslint 'assets/js/*.js' 'assets/js/woocommerce/*.js' --fix",
+    "lint:css": "stylelint 'style.css'",
+    "fix:css": "stylelint 'style.css' --fix"
   }
 }
