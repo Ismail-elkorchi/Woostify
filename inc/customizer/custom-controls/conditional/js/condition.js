@@ -346,14 +346,6 @@
 					],
 				)
 
-				// Infinite product loading.
-				condition(
-					'woostify_setting[shop_page_infinite_scroll_enable]',
-					[
-						'woostify_setting[shop_page_infinite_scroll_type]',
-					],
-				)
-
 				// PAGE HEADER
 				// Enable page header.
 				condition(

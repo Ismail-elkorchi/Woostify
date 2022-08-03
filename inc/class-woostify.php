@@ -688,15 +688,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 				);
 			}
 
-			// Infinite scroll.
-			wp_register_script(
-				'woostify-infinite-scroll-plugin',
-				WOOSTIFY_THEME_URI . 'assets/js/woocommerce/infinite-scroll.pkgd.min.js',
-				array(),
-				woostify_version(),
-				true
-			);
-
 			// Comment reply.
 			if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 				wp_enqueue_script( 'comment-reply' );
@@ -745,11 +736,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 		public function woostify_body_classes( $classes ) {
 			// Get theme options.
 			$options = woostify_options( false );
-
-			// Infinite scroll.
-			if ( $options['shop_page_infinite_scroll_enable'] ) {
-				$classes[] = 'infinite-scroll-active';
-			}
 
 			// Broser detection.
 			if ( woostify_browser_detection() ) {
