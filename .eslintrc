@@ -1,0 +1,9 @@
+{
+    "extends": [
+        "plugin:@wordpress/eslint-plugin/esnext"
+    ],
+    "env": {
+        "browser": true
+    },
+    "ignorePatterns": ["*.min.js", "confetti.js", "easyzoom.js", "lity.js", "photoswipe-init.js", "tiny-slider.js", "flickity.pkgd.js", "sticky-sidebar.js"]
+}
