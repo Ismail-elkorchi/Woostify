@@ -18,20 +18,6 @@ if ( ! function_exists( 'woostify_version' ) ) {
 	}
 }
 
-if ( ! function_exists( 'woostify_info' ) ) {
-	/**
-	 * Woostify Information.
-	 *
-	 * @param string $output The output.
-	 */
-	function woostify_info( $output ) {
-		$output .= ' data-woostify-version="' . woostify_version() . '"';
-		$output .= defined( 'WOOSTIFY_PRO_VERSION' ) ? ' data-woostify-pro-version="' . esc_attr( WOOSTIFY_PRO_VERSION ) . '"' : '';
-
-		return $output;
-	}
-}
-
 if ( ! function_exists( 'woostify_suffix' ) ) {
 	/**
 	 * Define Script debug.

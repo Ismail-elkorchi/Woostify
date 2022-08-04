@@ -21,9 +21,6 @@ if ( ! class_exists( 'Woostify' ) ) {
 			$this->woostify_content_width();
 			$this->woostify_includes();
 
-			// Add theme version into html tag.
-			add_filter( 'language_attributes', 'woostify_info' );
-
 			add_action( 'after_setup_theme', array( $this, 'woostify_setup' ) );
 			add_action( 'widgets_init', array( $this, 'woostify_widgets_init' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'woostify_scripts' ), 10 );
