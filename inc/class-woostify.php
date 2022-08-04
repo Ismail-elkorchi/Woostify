@@ -478,7 +478,7 @@ if ( ! class_exists( 'Woostify' ) ) {
 			// Arrive jquery plugin.
 			wp_register_script(
 				'woostify-arrive',
-				WOOSTIFY_THEME_URI . 'assets/js/arrive.min.js',
+				WOOSTIFY_THEME_URI . 'assets/js/vendor/arrive.min.js',
 				array(),
 				woostify_version(),
 				true
@@ -529,7 +529,7 @@ if ( ! class_exists( 'Woostify' ) ) {
 			// Congrats confetti effect.
 			wp_register_script(
 				'woostify-congrats-confetti-effect',
-				WOOSTIFY_THEME_URI . 'assets/js/confetti' . woostify_suffix() . '.js',
+				WOOSTIFY_THEME_URI . 'assets/js/vendor/confetti' . woostify_suffix() . '.js',
 				array(),
 				woostify_version(),
 				true
@@ -548,7 +548,7 @@ if ( ! class_exists( 'Woostify' ) ) {
 				// Product gallery zoom.
 				wp_register_script(
 					'easyzoom',
-					WOOSTIFY_THEME_URI . 'assets/js/easyzoom' . woostify_suffix() . '.js',
+					WOOSTIFY_THEME_URI . 'assets/js/vendor/easyzoom' . woostify_suffix() . '.js',
 					array( 'jquery' ),
 					woostify_version(),
 					true
@@ -576,7 +576,7 @@ if ( ! class_exists( 'Woostify' ) ) {
 			// Lightbox js.
 			wp_register_script(
 				'lity',
-				WOOSTIFY_THEME_URI . 'assets/js/lity' . woostify_suffix() . '.js',
+				WOOSTIFY_THEME_URI . 'assets/js/vendor/lity' . woostify_suffix() . '.js',
 				array( 'jquery' ),
 				woostify_version(),
 				true
@@ -585,7 +585,7 @@ if ( ! class_exists( 'Woostify' ) ) {
 			// Sticky sidebar js.
 			wp_register_script(
 				'sticky-sidebar',
-				WOOSTIFY_THEME_URI . 'assets/js/sticky-sidebar' . woostify_suffix() . '.js',
+				WOOSTIFY_THEME_URI . 'assets/js/vendor/sticky-sidebar' . woostify_suffix() . '.js',
 				array(),
 				woostify_version(),
 				true
@@ -594,7 +594,7 @@ if ( ! class_exists( 'Woostify' ) ) {
 			// Tiny slider js.
 			wp_register_script(
 				'tiny-slider',
-				WOOSTIFY_THEME_URI . 'assets/js/tiny-slider' . woostify_suffix() . '.js',
+				WOOSTIFY_THEME_URI . 'assets/js/vendor/tiny-slider' . woostify_suffix() . '.js',
 				array(),
 				woostify_version(),
 				true
@@ -603,7 +603,7 @@ if ( ! class_exists( 'Woostify' ) ) {
 			// Product images ( Flickity ).
 			wp_register_script(
 				'woostify-flickity',
-				WOOSTIFY_THEME_URI . 'assets/js/woocommerce/flickity.pkgd' . woostify_suffix() . '.js',
+				WOOSTIFY_THEME_URI . 'assets/js/vendor/flickity.pkgd' . woostify_suffix() . '.js',
 				array(),
 				woostify_version(),
 				true
