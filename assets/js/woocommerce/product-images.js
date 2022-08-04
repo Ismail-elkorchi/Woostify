@@ -8,22 +8,6 @@
 
 'use strict';
 
-// Carousel widget.
-function renderSlider( selector, options ) {
-	const element = document.querySelectorAll( selector );
-	if ( ! element.length ) {
-		return;
-	}
-
-	for ( let i = 0, j = element.length; i < j; i++ ) {
-		if ( element[ i ].classList.contains( 'flickity-enabled' ) ) {
-			continue;
-		}
-
-		const slider = new Flickity( options.container, options );
-	}
-}
-
 // Create product images item.
 function createImages( fullSrc, src, size ) {
 	let item = '<figure class="image-item ez-zoom" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">';

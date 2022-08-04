@@ -247,22 +247,6 @@ function toTopButton() {
 	);
 }
 
-// Scrolling detect direction.
-function scrollingDetect() {
-	const body = document.body;
-
-	if ( window.oldScroll > window.scrollY ) {
-		body.classList.add( 'scrolling-up' );
-		body.classList.remove( 'scrolling-down' );
-	} else {
-		body.classList.remove( 'scrolling-up' );
-		body.classList.add( 'scrolling-down' );
-	}
-
-	// Reset state.
-	window.oldScroll = window.scrollY;
-}
-
 // Get all Prev element siblings.
 function prevSiblings( target ) {
 	let siblings = [],
@@ -297,30 +281,6 @@ function siblings( target ) {
 		next = nextSiblings( target ) || [];
 
 	return prev.concat( next );
-}
-
-// Remove class with prefix.
-function woostifyRemoveClassPrefix() {
-	const selector = ( arguments.length > 0 && undefined !== arguments[ 0 ] ) ? arguments[ 0 ] : false,
-		prefix = ( arguments.length > 0 && undefined !== arguments[ 1 ] ) ? arguments[ 1 ] : false;
-
-	if ( ! selector || ! prefix ) {
-		return false;
-	}
-
-	const _classList = Array.from( selector.classList );
-
-	if ( ! _classList.length ) {
-		return false;
-	}
-
-	const results = _classList.filter(
-		function( item ) {
-			return ! item.includes( prefix );
-		}
-	);
-
-	selector.className = results.join( ' ' );
 }
 
 document.addEventListener(
