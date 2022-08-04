@@ -57,11 +57,6 @@ function productVariation( selector, form ) {
 				return;
 			}
 
-			// Support Product meta widget.
-			if ( productMetaSku ) {
-				productMetaSku.innerHTML = variation.sku;
-			}
-
 			// Photoswipe + zoom.
 			if ( photoSwipe ) {
 				photoSwipe.setAttribute( 'href', fullSrc );
